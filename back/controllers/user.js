@@ -49,9 +49,7 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: userFound.id,
             isAdmin: userFound.isAdmin,
-            token: jwt.sign({ userId: userFound._id }, "RANDOM_TOKEN_SECRET", {
-              expiresIn: "24h",
-            }),
+            token: jwt.sign({ userId: userFound.id }, "RANDOM_TOKEN_SECRET"),
           });
         })
         .catch(() => res.status(500).json({ error: "Echec de l'authentification" }));
