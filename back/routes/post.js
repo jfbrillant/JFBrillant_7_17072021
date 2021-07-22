@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/auth");
 const {
-  postValidationRules,
+  submitPostValidationRules,
   validate
 } = require("../middlewares/validator");
 const multer = require("../middlewares/multer-config");
@@ -13,6 +13,8 @@ router.post(
   "/",
   auth,
   multer,
+  submitPostValidationRules(),
+  validate,
   postCtrl.createPost
 );
 // router.get("/:id", auth, postCtrl.getOnePost);

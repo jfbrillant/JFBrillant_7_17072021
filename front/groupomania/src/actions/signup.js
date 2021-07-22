@@ -28,6 +28,7 @@ export const apiPOST = (signUpData) => {
         axios.post('http://localhost:3000/api/auth/signup', signUpData)
         .then( res => {
             dispatch(submitSignUpSuccesAction(res))
+            window.location.pathname = "/login"
         })
         .catch( err => {
             dispatch(submitSignUpErrorAction(err))

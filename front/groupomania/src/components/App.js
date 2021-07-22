@@ -3,6 +3,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import store from "../store";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
 import Home from "./Home";
 import Login from "../containers/Login";
@@ -11,6 +12,7 @@ import Feed from "./Feed";
 import Footer from "./Footer";
 
 function App() {
+
   return (
     <Provider store={store}>
       <React.Fragment>
@@ -20,7 +22,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
-            <Route path="/feed" component={Feed} />
+            <ProtectedRoute path="/feed" component={Feed} />
             <Route
               path="/"
               component={() => <div>Oups... La page n'existe pas !</div>}

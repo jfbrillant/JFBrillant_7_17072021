@@ -26,9 +26,9 @@ import {
         return {
           ...state,
           isLoading: false,
-          signUpData: {
-            email: "",
-            password: "",
+          postSubmitData: {
+            title: "",
+            attachment: "",
           },
           error: "",
         };
@@ -36,9 +36,9 @@ import {
         return {
           ...state,
           isLoading: false,
-          signUpData: {
-            email: "",
-            password: "",
+          postSubmitData: {
+            title: "",
+            attachment: "",
           },
           error: action.payload,
         };

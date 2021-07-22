@@ -2,8 +2,10 @@ import "../styles/Login.scss";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/login";
+import LinkButton from "../components/LinkButton";
 
 function Login(props) {
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -48,16 +50,15 @@ function Login(props) {
               }
             />
           </div>
-          <button
-            type="submit"
+          <LinkButton
+            to="/feed"
             className="btn btn-primary"
             onClick={(e) => {
-              e.preventDefault();
-              props.SubmitSignUpData(loginData);
+              props.SubmitLoginData(loginData);
             }}
           >
             Valider
-          </button>
+          </LinkButton>
         </form>
       </div>
     </main>
@@ -66,13 +67,13 @@ function Login(props) {
 
 const mapStateToProps = (state) => {
   return {
-    loginData: state.loginData,
+    loginData: state.login,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    SubmitSignUpData: (loginData) => dispatch(apiPOST(loginData)),
+    SubmitLoginData: (loginData) => dispatch(apiPOST(loginData)),
   };
 };
 

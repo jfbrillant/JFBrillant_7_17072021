@@ -5,7 +5,7 @@ import {
 } from "../constants/postsViewer";
 import axios from "axios";
 
-const token = localStorage.getItem("userToken");
+const userData = JSON.parse(localStorage.getItem('userData'));
 
 const getPostsAction = () => {
   return {
@@ -33,7 +33,7 @@ export const apiGET = () => {
     axios
       .get("http://localhost:3000/api/post", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userData.token}`,
         },
       })
       .then((res) => {

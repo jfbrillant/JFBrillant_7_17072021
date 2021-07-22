@@ -43,7 +43,7 @@ function PostForm(props) {
           className="btn btn-primary"
           onClick={(e) => {
             e.preventDefault();
-            props.SubmitSignUpData(postSubmitData);
+            props.SubmitPostData(postSubmitData);
           }}
         >
           Poster
@@ -61,7 +61,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    SubmitSignUpData: (postSubmitData) => dispatch(apiPOST(postSubmitData)),
+    SubmitPostData: (postSubmitData) => dispatch(apiPOST(postSubmitData)),
   };
 };
 

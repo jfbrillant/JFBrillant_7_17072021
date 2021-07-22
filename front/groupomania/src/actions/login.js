@@ -5,10 +5,10 @@ import {
 } from "../constants/login";
 import axios from "axios";
 
-const submitLoginAction = (signUpData) => {
+const submitLoginAction = (loginData) => {
   return {
     type: SUBMIT_LOGIN,
-    payload: signUpData,
+    payload: loginData,
   };
 };
 
@@ -33,7 +33,9 @@ export const apiPOST = (loginData) => {
       .post("http://localhost:3000/api/auth/login", loginData)
       .then((res) => {
         dispatch(submitLoginSuccesAction(res));
-        localStorage.setItem('userToken', res.data.token)
+        localStorage.setItem("userData", JSON.stringify(res.data));
+        localStorage.setItem("isLogin", "true");
+        window.location.pathname = "/feed"
       })
       .catch((err) => {
         dispatch(submitLoginErrorAction(err));

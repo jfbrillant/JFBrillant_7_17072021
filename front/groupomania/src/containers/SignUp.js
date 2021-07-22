@@ -14,7 +14,7 @@ function SignUp(props) {
     <main>
       <div className="container">
         <h1 className="mt-5 mb-5">
-          Inscrivez-vous et rejoignez la communauté de Groupomania !
+          Inscrivez-vous et rejoignez la communauté !
         </h1>
         <form id="checkout-form" name="checkout-form">
           <div className="form-row">

@@ -2,7 +2,16 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/icon-left-font-monochrome-white.svg";
 
-export default function Header() {
+function Header() {
+
+  const isLogin = () => {
+    if (localStorage.getItem("isLogin") === "true") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,33 +37,57 @@ export default function Header() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink
-                  exact
-                  activeClassName="active"
-                  aria-current="page"
-                  className="nav-link"
-                  to="/login"
-                >
-                  Se connecter
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  exact
-                  activeClassName="active"
-                  aria-current="page"
-                  className="nav-link"
-                  to="/signup"
-                >
-                  Créer un compte
-                </NavLink>
-              </li>
-            </ul>
+            {isLogin() ? (
+              <React.Fragment>
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <NavLink
+                    exact
+                    className="nav-link"
+                    onClick={() => {
+                      localStorage.setItem("isLogin", "false");
+                      localStorage.removeItem("userData")
+                      window.location.pathname = "/login"
+                    }}
+                    to="/login"
+                  >
+                    Se déconnecter
+                  </NavLink>
+                </li>
+              </ul>
+              <div className="text-light">Bonjour { JSON.parse(localStorage.getItem("userData")).firstname }</div>
+              </React.Fragment>
+            ) : (
+              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                <li className="nav-item">
+                  <NavLink
+                    exact
+                    activeClassName="active"
+                    aria-current="page"
+                    className="nav-link"
+                    to="/login"
+                  >
+                    Se connecter
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    exact
+                    activeClassName="active"
+                    aria-current="page"
+                    className="nav-link"
+                    to="/signup"
+                  >
+                    Créer un compte
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </nav>
     </header>
   );
 }
+
+export default Header;

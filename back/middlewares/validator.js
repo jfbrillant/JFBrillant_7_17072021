@@ -4,10 +4,10 @@ const signUpValidationRules = () => {
   return [
     check(
       "firstname",
-      "Le prénom doit contenir au moins 3 caractères et uniquement des lettres"
+      "Le prénom doit contenir au moins 2 caractères et uniquement des lettres"
     )
       .isAlpha()
-      .isLength({ min: 3 }),
+      .isLength({ min: 2 }),
       check(
         "lastname",
         "Le nom doit contenir au moins 3 caractères et uniquement des lettres"
@@ -36,8 +36,15 @@ const loginValidationRules = () => {
   ];
 };
 
+const submitPostValidationRules = () => {
+  return [
+    check("title", "Le titre n'est pas valide")
+    .isAlphanumeric()
+    .isLength({ min: 2 }),
+  ];
+};
+
 const validate = (req, res, next) => {
-  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
@@ -48,5 +55,6 @@ const validate = (req, res, next) => {
 module.exports = {
   signUpValidationRules,
   loginValidationRules,
+  submitPostValidationRules,
   validate,
 };
