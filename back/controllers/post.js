@@ -21,12 +21,34 @@ exports.getAllPosts = (req, res, next) => {
       if(posts) {
         res.status(200).json(posts);
       } else {
-        res.status(404).json({error: "Pas de messages à afficher !"});
+        res.status(404).json({error: "Pas de post à afficher !"});
       }
     })
     .catch(() => {
       res.status(500).json({
         error: "Echec lors de la récupération des posts",
+      });
+    });
+};
+
+exports.getOnePost = (req, res, next) => {
+  models.Post.findOne({
+    where: { id: req.params.id },
+    include: [{
+      model: models.User,
+      attributes: [ 'firstname', 'lastname' ]
+    }]
+  }) 
+    .then((onePost) => {
+      if(onePost) {
+        res.status(200).json(onePost);
+      } else {
+        res.status(404).json({error: "Pas de message à afficher !"});
+      }
+    })
+    .catch(() => {
+      res.status(500).json({
+        error: "Echec lors de la récupération du post",
       });
     });
 };
@@ -63,4 +85,35 @@ exports.createPost = (req, res, next) => {
         error: "impossible de vérifier l'utilisateur",
       })
     );
+};
+
+exports.getComments = (req, res, next) => {
+  const fields = req.query.fields;
+  const limit = parseInt(req.query.limit);
+  const offset = parseInt(req.query.offset);
+  const order = req.query.order;
+
+  models.Comment.findAll({
+    where: { postId: req.params.id}, 
+    order: [(order != null) ? order.split(':') : ['createdAt', 'DESC']],
+    attributes: (fields !== '*' && fields != null) ? fields.split(',') : null,
+    limit: (!isNaN(limit)) ? limit : null,
+    offset: (!isNaN(offset)) ? offset : null,
+    include: [{
+      model: models.User,
+      attributes: [ 'firstname', 'lastname' ]
+    }]
+  }) 
+    .then((comments) => {
+      if(comments) {
+        res.status(200).json(comments);
+      } else {
+        res.status(404).json({error: "Pas de commentaires à afficher !"});
+      }
+    })
+    .catch(() => {
+      res.status(500).json({
+        error: "Echec lors de la récupération des commentaires",
+      });
+    });
 };

@@ -1,0 +1,3 @@
+export const GET_ONEPOST = 'GET_ONEPOST';
+export const GET_ONEPOST_SUCCES = 'GET_ONEPOST_SUCCES';
+export const GET_ONEPOST_ERROR = 'GET_POSTS_ERROR';

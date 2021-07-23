@@ -17,7 +17,8 @@ router.post(
   validate,
   postCtrl.createPost
 );
-// router.get("/:id", auth, postCtrl.getOnePost);
+router.get("/:id", auth, postCtrl.getOnePost);
+router.get("/:id/comment", auth, postCtrl.getComments);
 // router.put(
 //   "/:id",
 //   auth,

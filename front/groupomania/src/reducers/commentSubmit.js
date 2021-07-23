@@ -1,42 +1,41 @@
 import {
-    SUBMIT_POSTS,
-    SUBMIT_POSTS_SUCCES,
-    SUBMIT_POSTS_ERROR,
-  } from "../constants/postSubmit";
+    SUBMIT_COMMENT,
+    SUBMIT_COMMENT_SUCCES,
+    SUBMIT_COMMENT_ERROR,
+  } from "../constants/commentSubmit";
   
-  const statePostSubmit = {
+  const stateCommentSubmit = {
     isLoading: false,
-    postSubmitData: {
-      title: "",
-      attachment: "",
+    commentSubmitData: {
+      comment: "",
     },
     error: "",
   };
   
-  export const postSubmitReducer = (state = statePostSubmit, action) => {
+  export const postSubmitReducer = (state = stateCommentSubmit, action) => {
     switch (action.type) {
-      case SUBMIT_POSTS:
+      case SUBMIT_COMMENT:
         return {
           ...state,
           isLoading: true,
-          postSubmitData: action.payload,
+          commentSubmitData: action.payload,
           error: "",
         };
-      case SUBMIT_POSTS_SUCCES:
+      case SUBMIT_COMMENT_SUCCES:
         return {
           ...state,
           isLoading: false,
-          postSubmitData: {
+          commentSubmitData: {
             title: "",
             attachment: "",
           },
           error: "",
         };
-      case SUBMIT_POSTS_ERROR:
+      case SUBMIT_COMMENT_ERROR:
         return {
           ...state,
           isLoading: false,
-          postSubmitData: {
+          commentSubmitData: {
             title: "",
             attachment: "",
           },

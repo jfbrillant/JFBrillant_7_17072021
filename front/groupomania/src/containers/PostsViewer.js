@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import LinkButton from "../components/LinkButton";
 import moment from 'moment';
 import 'moment/locale/fr'
 import { apiGET } from "../actions/postsViewer";
 
 function PostsViewer({ postsData, getPostsData }) {
+  console.log(postsData)
   useEffect(() => {
     getPostsData();
   }, [getPostsData]);
@@ -21,7 +24,9 @@ function PostsViewer({ postsData, getPostsData }) {
         <div key={post.id} className="mb-5">
           <div className="card">
             <div className="card-body">
+            <Link to={ `/post/${post.id}` }>
               <h2 className="card-title">{post.title}</h2>
+              </Link>
               <p className="card-text">
                 Posté par{" "}
                 <span className="h5">
@@ -31,6 +36,10 @@ function PostsViewer({ postsData, getPostsData }) {
               </p>
             </div>
             <img src={post.attachment} className="card-img-top" alt="Img" />
+            <div className='d-flex justify-content-between'>
+            <button>likes : </button>
+            <LinkButton to={ `/post/${post.id}` }>Commentaires : </LinkButton>
+            </div>
           </div>
         </div>
       );
