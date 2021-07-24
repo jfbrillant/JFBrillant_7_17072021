@@ -92,6 +92,51 @@ exports.createPost = (req, res, next) => {
     );
 };
 
+exports.deletePost = (req, res, next) => {
+  models.Post.findOne({
+    where: { id: req.params.id },
+    include: [
+      {
+        model: models.User,
+        attributes: ["id", "isAdmin"],
+      },
+    ],
+  })
+    .then((postFound) => {
+      if (
+        postFound &&
+        (postFound.User.isAdmin || postFound.userId === postFound.User.id)
+      ) {
+        const filename = postFound.attachment.split("/images/")[1];
+        fs.unlink(`images/${filename}`, () => {
+          postFound
+            .destroy({
+              where: { id: req.params.id },
+            })
+            .then(() => {
+              res.status(204).json({
+                message: "Commentaire supprimé !",
+              });
+            })
+            .catch(() => {
+              res.status(500).json({
+                error: "Echec lors de la suppression du post",
+              });
+            });
+        });
+      } else {
+        res.status(404).json({
+          error: "l'utilisateur n'a pas été trouvé",
+        });
+      }
+    })
+    .catch(() =>
+      res.status(500).json({
+        error: "impossible de vérifier l'utilisateur",
+      })
+    );
+};
+
 exports.getComments = (req, res, next) => {
   models.Comment.findAll({
     where: { postId: req.params.id },
@@ -134,7 +179,7 @@ exports.createComment = (req, res, next) => {
             models.Post.findOne({
               where: { id: req.body.postId },
             })
-              .then((postFound) => {
+              .then(() => {
                 res.status(201).json({
                   message: "Commentaire créé !",
                 });

@@ -5,7 +5,6 @@ import store from "../store";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
-import Home from "./Home";
 import Login from "../containers/Login";
 import SignUp from "../containers/SignUp";
 import Feed from "./Feed";
@@ -20,7 +19,7 @@ function App() {
         <Router>
           <Header />
           <Switch>
-            <Route path="/" exact component={Home} />
+            <ProtectedRoute path="/" exact component={Feed} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
             <ProtectedRoute path="/feed" component={Feed} />

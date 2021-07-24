@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import LinkButton from "../components/LinkButton";
+import PostDelete from "./PostDelete";
 import moment from 'moment';
 import 'moment/locale/fr'
 import { apiGET } from "../actions/postsViewer";
@@ -11,7 +12,7 @@ function PostsViewer({ postsData, getPostsData }) {
     getPostsData();
   }, [getPostsData]);
 
-  const displayPosts = !postsData.posts ? (
+  const displayPosts = (!postsData.posts) ? (
     <p>Il n'y a aucun post... !</p>
   ) : postsData.isLoading ? (
     <p>Chargement en cours...</p>
@@ -23,9 +24,12 @@ function PostsViewer({ postsData, getPostsData }) {
         <div key={post.id} className="mb-5">
           <div className="card">
             <div className="card-body">
-            <Link to={ `/post/${post.id}` }>
+              <div className="d-flex justify-content-between">
+              <Link to={ `/post/${post.id}` }>
               <h2 className="card-title">{post.title}</h2>
               </Link>
+              <PostDelete userId={post.userId} postId={post.id}/>
+              </div>
               <p className="card-text">
                 Posté par{" "}
                 <span className="h5">
@@ -36,8 +40,8 @@ function PostsViewer({ postsData, getPostsData }) {
             </div>
             <img src={post.attachment} className="card-img-top" alt="Img" />
             <div className='d-flex justify-content-between'>
-            <button>likes : {post.likes}</button>
-            <LinkButton to={ `/post/${post.id}` }>Commentaires : {post.comments}</LinkButton>
+            <button className="btn btn-primary">likes : {post.likes}</button>
+            <LinkButton to={ `/post/${post.id}` } className="btn btn-primary">Commentaires : {post.comments}</LinkButton>
             </div>
           </div>
         </div>

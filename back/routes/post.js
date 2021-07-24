@@ -9,6 +9,7 @@ const multer = require("../middlewares/multer-config");
 const postCtrl = require("../controllers/post");
 
 router.get("/", auth, postCtrl.getAllPosts);
+router.get("/:id", auth, postCtrl.getOnePost);
 router.post(
   "/",
   auth,
@@ -16,8 +17,8 @@ router.post(
   submitPostValidationRules(),
   validate,
   postCtrl.createPost
-);
-router.get("/:id", auth, postCtrl.getOnePost);
+  );
+router.delete("/:id", auth, postCtrl.deletePost);
 
 router.get("/:id/comment", auth, postCtrl.getComments);
 router.post("/:id/comment", auth, postCtrl.createComment);
@@ -30,6 +31,5 @@ router.post("/:id/comment", auth, postCtrl.createComment);
 //   validate,
 //   postCtrl.modifyPost
 // );
-// router.delete("/:id", auth, postCtrl.deletePost);
 
 module.exports = router;

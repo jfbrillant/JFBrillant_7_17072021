@@ -6,6 +6,7 @@ import 'moment/locale/fr'
 import { apiGET } from "../actions/onePost";
 import CommentSubmit from "./CommentSubmit";
 import CommentsViewer from "./CommentsViewer";
+import PostDelete from "./PostDelete";
 
 function OnePost({ onePostData, getOnePostData }) {
   const id = useParams().id;
@@ -23,7 +24,10 @@ function OnePost({ onePostData, getOnePostData }) {
             <div key={onePostData.post.id} className="mb-5">
               <div className="card">
                 <div className="card-body">
+                  <div className="d-flex justify-content-between">
                     <h2 className="card-title">{onePostData.post.title}</h2>
+                    <PostDelete userId={onePostData.post.userId} postId={onePostData.post.id}/>
+                  </div>
                   <p className="card-text">
                     Posté par{" "}
                     <span className="h5">

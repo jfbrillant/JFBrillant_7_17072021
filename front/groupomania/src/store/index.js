@@ -5,6 +5,7 @@ import { postReducer } from '../reducers/postsViewer'
 import { postSubmitReducer } from '../reducers/postSubmit'
 import { onePostReducer } from '../reducers/onePost';
 import { commentReducer } from '../reducers/commentViewer';
+import { postDeleteReducer } from '../reducers/postDelete';
 import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     submitPost: postSubmitReducer,
     getOnePost: onePostReducer,
     getComments: commentReducer,
+    deletePost: postDeleteReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
