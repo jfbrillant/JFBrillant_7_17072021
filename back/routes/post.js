@@ -18,7 +18,10 @@ router.post(
   postCtrl.createPost
 );
 router.get("/:id", auth, postCtrl.getOnePost);
+
 router.get("/:id/comment", auth, postCtrl.getComments);
+router.post("/:id/comment", auth, postCtrl.createComment);
+
 // router.put(
 //   "/:id",
 //   auth,
@@ -28,6 +31,5 @@ router.get("/:id/comment", auth, postCtrl.getComments);
 //   postCtrl.modifyPost
 // );
 // router.delete("/:id", auth, postCtrl.deletePost);
-// router.post("/:id/like", auth, postCtrl.likePost);
 
 module.exports = router;

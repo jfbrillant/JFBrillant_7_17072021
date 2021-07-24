@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.Post.belongsTo(models.User, {
         foreignKey: {
-          allowNull: false
+          allowNull: false,
         }
       })
     }
@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     title: DataTypes.STRING,
     attachment: DataTypes.STRING,
-    likes: DataTypes.INTEGER
+    likes: DataTypes.INTEGER,
+    comments: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Post',

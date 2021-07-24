@@ -4,7 +4,8 @@ import { apiPOST } from "../actions/commentSubmit";
 
 function CommentSubmit(props) {
   const [commentSubmitData, setCommentSubmitData] = useState({
-    comment: ""
+    postId: props.id,
+    content: ""
   });
   return (
     <div className="container">
@@ -20,7 +21,7 @@ function CommentSubmit(props) {
             placeholder="commentaire"
             value={commentSubmitData.comment}
             onChange={(e) =>
-                setCommentSubmitData({ ...commentSubmitData, comment: e.target.value })
+                setCommentSubmitData({ ...commentSubmitData, content: e.target.value })
             }
             aria-describedby="comment"
           />

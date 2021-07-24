@@ -7,7 +7,8 @@ import {
   const stateCommentSubmit = {
     isLoading: false,
     commentSubmitData: {
-      comment: "",
+      postId: "",
+      content: "",
     },
     error: "",
   };
@@ -26,8 +27,8 @@ import {
           ...state,
           isLoading: false,
           commentSubmitData: {
-            title: "",
-            attachment: "",
+            postId: "",
+            content: "",
           },
           error: "",
         };
@@ -36,8 +37,8 @@ import {
           ...state,
           isLoading: false,
           commentSubmitData: {
-            title: "",
-            attachment: "",
+            postId: "",
+            content: "",
           },
           error: action.payload,
         };

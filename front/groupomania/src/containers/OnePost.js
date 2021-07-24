@@ -8,7 +8,6 @@ import CommentSubmit from "./CommentSubmit";
 import CommentsViewer from "./CommentsViewer";
 
 function OnePost({ onePostData, getOnePostData }) {
-  console.log(onePostData)
   const id = useParams().id;
     useEffect(() => {
       getOnePostData(id);

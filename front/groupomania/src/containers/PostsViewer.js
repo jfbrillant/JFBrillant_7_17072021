@@ -7,7 +7,6 @@ import 'moment/locale/fr'
 import { apiGET } from "../actions/postsViewer";
 
 function PostsViewer({ postsData, getPostsData }) {
-  console.log(postsData)
   useEffect(() => {
     getPostsData();
   }, [getPostsData]);
@@ -37,8 +36,8 @@ function PostsViewer({ postsData, getPostsData }) {
             </div>
             <img src={post.attachment} className="card-img-top" alt="Img" />
             <div className='d-flex justify-content-between'>
-            <button>likes : </button>
-            <LinkButton to={ `/post/${post.id}` }>Commentaires : </LinkButton>
+            <button>likes : {post.likes}</button>
+            <LinkButton to={ `/post/${post.id}` }>Commentaires : {post.comments}</LinkButton>
             </div>
           </div>
         </div>
