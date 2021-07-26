@@ -1,18 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import LinkButton from "../components/LinkButton";
 import PostDelete from "./PostDelete";
-import moment from 'moment';
-import 'moment/locale/fr'
+import PostEdit from "./PostEdit";
+import moment from "moment";
+import "moment/locale/fr";
 import { apiGET } from "../actions/postsViewer";
+import { apiPUT } from "../actions/postEdit";
 
-function PostsViewer({ postsData, getPostsData }) {
+function PostsViewer({ postsData, getPostsData, editPost }) {
   useEffect(() => {
     getPostsData();
   }, [getPostsData]);
 
-  const displayPosts = (!postsData.posts) ? (
+  const [isUpdated, setIsUpdated] = useState(false);
+  const [postUpdate, setPostUpdate] = useState({
+    title: "",
+    attachment: "",
+  });
+
+  const displayPosts = !postsData.posts ? (
     <p>Il n'y a aucun post... !</p>
   ) : postsData.isLoading ? (
     <p>Chargement en cours...</p>
@@ -25,10 +33,57 @@ function PostsViewer({ postsData, getPostsData }) {
           <div className="card">
             <div className="card-body">
               <div className="d-flex justify-content-between">
-              <Link to={ `/post/${post.id}` }>
-              <h2 className="card-title">{post.title}</h2>
-              </Link>
-              <PostDelete userId={post.userId} postId={post.id}/>
+                {!isUpdated ? (
+                  <Link to={`/post/${post.id}`}>
+                    <h2 className="card-title">{post.title}</h2>
+                  </Link>
+                ) : (
+                  <div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder={post.title}
+                      value={postUpdate.title}
+                      onChange={(e) =>
+                        setPostUpdate({
+                          ...postUpdate,
+                          title: e.target.value,
+                        })
+                      }
+                      aria-describedby="post-title"
+                    />
+                    <input
+                      type="file"
+                      name="attachment"
+                      className="form-control"
+                      accept=".jpg,.gif"
+                      onChange={(e) =>
+                        setPostUpdate({
+                          ...postUpdate,
+                          attachment: e.target.files[0],
+                        })
+                      }
+                      aria-describedby="post-title"
+                    />
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        editPost(post.id, postUpdate);
+                      }}
+                    >
+                      Valider les modifications
+                    </button>
+                  </div>
+                )}
+                <PostEdit
+                  userId={post.userId}
+                  postId={post.id}
+                  isUpdated={isUpdated}
+                  setIsUpdated={setIsUpdated}
+                />
+                <PostDelete userId={post.userId} postId={post.id} />
               </div>
               <p className="card-text">
                 Posté par{" "}
@@ -39,9 +94,11 @@ function PostsViewer({ postsData, getPostsData }) {
               </p>
             </div>
             <img src={post.attachment} className="card-img-top" alt="Img" />
-            <div className='d-flex justify-content-between'>
-            <button className="btn btn-primary">likes : {post.likes}</button>
-            <LinkButton to={ `/post/${post.id}` } className="btn btn-primary">Commentaires : {post.comments}</LinkButton>
+            <div className="d-flex justify-content-between">
+              <button className="btn btn-primary">likes : {post.likes}</button>
+              <LinkButton to={`/post/${post.id}`} className="btn btn-primary">
+                Commentaires : {post.comments}
+              </LinkButton>
             </div>
           </div>
         </div>
@@ -61,6 +118,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPostsData: () => dispatch(apiGET()),
+    editPost: (id, postUpdate) => dispatch(apiPUT(id, postUpdate)),
   };
 };
 

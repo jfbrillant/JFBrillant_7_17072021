@@ -1,0 +1,3 @@
+export const EDIT_POST = 'EDIT_POST';
+export const EDIT_POST_SUCCES = 'EDIT_POST_SUCCES';
+export const EDIT_POST_ERROR = 'EDIT_POST_ERROR';

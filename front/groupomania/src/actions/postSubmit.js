@@ -5,7 +5,7 @@ import {
 } from "../constants/postSubmit";
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem('userData'));
+const userData = JSON.parse(localStorage.getItem("userData"));
 
 const postSubmitAction = (postSubmitData) => {
   return {
@@ -37,12 +37,12 @@ export const apiPOST = (postSubmitData) => {
     axios
       .post("http://localhost:3000/api/post", data, {
         headers: {
-          'Authorization': `Bearer ${userData.token}`,
+          Authorization: `Bearer ${userData.token}`,
         },
       })
       .then((res) => {
         dispatch(postSubmitSuccesAction(res));
-        window.location.pathname = "/feed"
+        window.location.pathname = "/feed";
       })
       .catch((err) => {
         dispatch(postSubmitErrorAction(err));

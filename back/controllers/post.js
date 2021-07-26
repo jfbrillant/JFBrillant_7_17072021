@@ -92,6 +92,52 @@ exports.createPost = (req, res, next) => {
     );
 };
 
+exports.modifyPost = (req, res) => {
+  models.Post.findOne({
+    where: { id: req.params.id },
+    include: [
+      {
+        model: models.User,
+        attributes: ["id", "isAdmin"],
+      },
+    ],
+  }).then((postFound) => {
+    if (
+      postFound &&
+      (postFound.User.isAdmin || postFound.userId === postFound.User.id)
+    ) {
+      const postToModify = req.file
+        ? {
+            title: req.body.title,
+            attachment: `${req.protocol}://${req.get("host")}/images/${
+              req.file.filename
+            }`,
+          }
+        : {
+            title: req.body.title,
+          };
+      postFound
+        .update({
+          ...postToModify,
+        })
+        .then(() =>
+          res.status(201).json({
+            message: "Post modifié !",
+          })
+        )
+        .catch(() =>
+          res.status(500).json({
+            error: "Echec lors de la modification du post",
+          })
+        );
+    } else {
+      res.status(404).json({
+        error: "le post n'a pas été trouvé",
+      });
+    }
+  });
+};
+
 exports.deletePost = (req, res, next) => {
   models.Post.findOne({
     where: { id: req.params.id },
@@ -115,7 +161,7 @@ exports.deletePost = (req, res, next) => {
             })
             .then(() => {
               res.status(204).json({
-                message: "Commentaire supprimé !",
+                message: "Post supprimé !",
               });
             })
             .catch(() => {
@@ -126,13 +172,13 @@ exports.deletePost = (req, res, next) => {
         });
       } else {
         res.status(404).json({
-          error: "l'utilisateur n'a pas été trouvé",
+          error: "le post n'a pas été trouvé",
         });
       }
     })
     .catch(() =>
       res.status(500).json({
-        error: "impossible de vérifier l'utilisateur",
+        error: "impossible de vérifier le post",
       })
     );
 };

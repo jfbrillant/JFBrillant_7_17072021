@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require("../middlewares/auth");
 const {
   submitPostValidationRules,
-  validate
+  validate,
 } = require("../middlewares/validator");
 const multer = require("../middlewares/multer-config");
 const postCtrl = require("../controllers/post");
@@ -17,19 +17,11 @@ router.post(
   submitPostValidationRules(),
   validate,
   postCtrl.createPost
-  );
+);
+router.put("/:id", auth, multer, postCtrl.modifyPost);
 router.delete("/:id", auth, postCtrl.deletePost);
 
 router.get("/:id/comment", auth, postCtrl.getComments);
 router.post("/:id/comment", auth, postCtrl.createComment);
-
-// router.put(
-//   "/:id",
-//   auth,
-//   multer,
-//   postValidationRules(),
-//   validate,
-//   postCtrl.modifyPost
-// );
 
 module.exports = router;
