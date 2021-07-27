@@ -8,14 +8,12 @@ function CommentSubmit(props) {
     content: ""
   });
   return (
-    <div className="container">
       <form>
-        <div className="form-group col-md-6 mb-3">
+        <div className="form-group col mb-3">
           <label htmlFor="title" className="form-label">
           Postez un commentaire !
           </label>
-          <input
-            type="text"
+          <textarea
             className="form-control"
             id="comment"
             placeholder="commentaire"
@@ -28,7 +26,7 @@ function CommentSubmit(props) {
         </div>
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-dark mb-3"
           onClick={(e) => {
             e.preventDefault();
             props.SubmitCommentData(commentSubmitData, props.id);
@@ -37,7 +35,6 @@ function CommentSubmit(props) {
           Poster
         </button>
       </form>
-    </div>
   );
 }
 

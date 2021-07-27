@@ -225,34 +225,30 @@ exports.createComment = (req, res, next) => {
             models.Post.findOne({
               where: { id: req.body.postId },
             })
-              .then(() => {
-                res.status(201).json({
-                  message: "Commentaire créé !",
-                });
+              .then((postFound) => {
+                if (postFound) {
+                  postFound
+                    .update({
+                      comments: postFound.dataValues.comments + 1,
+                    })
+                    .then(() =>
+                      res.status(201).json({
+                        message:
+                          "Compteur de commentaires du post mis à jour !",
+                      })
+                    )
+                    .catch(() =>
+                      res.status(500).json({
+                        error:
+                          "Echec lors de la mise à jour du compteur de commentaires du post",
+                      })
+                    );
+                } else {
+                  res
+                    .status(404)
+                    .json({ error: "Pas de commentaires ayant cet id !" });
+                }
               })
-              // .then((postFound) => {
-              //   if (postFound) {
-              //     models.Post.update({
-              //       comments: postFound.comments + 1,
-              //     })
-              //       .then(() =>
-              //         res.status(201).json({
-              //           message:
-              //             "Compteur de commentaires du post mis à jour !",
-              //         })
-              //       )
-              //       .catch(() =>
-              //         res.status(500).json({
-              //           error:
-              //             "Echec lors de la mise à jour du compteur de commentaires du post",
-              //         })
-              //       );
-              //   } else {
-              //     res
-              //       .status(404)
-              //       .json({ error: "Pas de commentaires ayant cet id !" });
-              //   }
-              // })
               .catch(() =>
                 res.status(500).json({
                   error: "Echec de la recherche du commentaire !",
@@ -271,4 +267,110 @@ exports.createComment = (req, res, next) => {
         error: "impossible de vérifier l'utilisateur",
       })
     );
+};
+
+exports.modifyComment = (req, res) => {
+  models.Comment.findOne({
+    where: {
+      id: req.params.commentid,
+    },
+    include: [
+      {
+        model: models.User,
+        attributes: ["id", "isAdmin"],
+      },
+    ],
+  }).then((commentFound) => {
+    console.log(commentFound)
+    if (
+      commentFound &&
+      (commentFound.User.dataValues.isAdmin || commentFound.dataValues.userId === commentFound.User.dataValues.id)
+    ) {
+      commentFound
+        .update(
+          {content: req.body.content},
+          {where: {
+            id: req.body.commentId
+          }}
+        )
+        .then(() =>
+          res.status(201).json({
+            message: "commentaire modifié !",
+          })
+        )
+        .catch(() =>
+          res.status(500).json({
+            error: "Echec lors de la modification du commentaire",
+          })
+        );
+    } else {
+      res.status(404).json({
+        error: "le commentaire n'a pas été trouvé",
+      });
+    }
+  });
+};
+
+exports.deleteComment = (req, res) => {
+  models.Comment.findOne({
+    where: { id: req.params.commentid },
+    include: [
+      {
+        model: models.User,
+        attributes: ["id", "isAdmin"],
+      },
+    ],
+  }).then((commentFound) => {
+    if (
+      commentFound &&
+      (commentFound.User.dataValues.isAdmin || commentFound.dataValues.userId === commentFound.User.dataValues.id)
+    ) {
+      commentFound
+        .destroy()
+        .then(() => {
+          models.Post.findOne({
+            where: { id: req.params.postid },
+          })
+            .then((postFound) => {
+              if (postFound) {
+                postFound
+                  .update({
+                    comments: postFound.dataValues.comments - 1,
+                  })
+                  .then(() =>
+                    res.status(201).json({
+                      message:
+                        "Compteur de commentaires du post mis à jour !",
+                    })
+                  )
+                  .catch(() =>
+                    res.status(500).json({
+                      error:
+                        "Echec lors de la mise à jour du compteur de commentaires du post",
+                    })
+                  );
+              } else {
+                res
+                  .status(404)
+                  .json({ error: "Pas de post ayant cet id !" });
+              }
+            })
+            .catch(() =>
+              res.status(500).json({
+                error: "Echec de la recherche du post !",
+              })
+            );
+        })
+    } else {
+      res.status(404).json({
+        error: "Pas de commentaires ayant cet id !",
+      });
+    }
+    
+  })
+  .catch(() =>
+  res.status(500).json({
+    error: "Echec de de la recherche du commentaire",
+  })
+);
 };

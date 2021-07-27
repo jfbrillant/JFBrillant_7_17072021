@@ -8,18 +8,21 @@ function postDelete({ userId, postId, deletePost }) {
 
     const userData = JSON.parse(localStorage.getItem('userData'));
 
-    const displayDeleteButton = (userData.isAdmin || userData.userId === userId) ? (
-        <LinkButton to="/feed"
-        className="btn btn-primary"
-        onClick={(e) => {
-          e.preventDefault();
-          deletePost(postId);
-        }}>
-            X
+    const displayDeleteButton =
+      userData.isAdmin || userData.userId === userId ? (
+        <LinkButton
+          to="/feed"
+          className="btn btn-outline-danger"
+          onClick={(e) => {
+            e.preventDefault();
+            deletePost(postId);
+          }}
+        >
+          <i className="fas fa-trash-alt"></i>
         </LinkButton>
-    ) : (
+      ) : (
         <Fragment></Fragment>
-    )
+      );
 
     return <Fragment>{displayDeleteButton}</Fragment>
 

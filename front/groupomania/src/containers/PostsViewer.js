@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import LinkButton from "../components/LinkButton";
@@ -29,12 +29,15 @@ function PostsViewer({ postsData, getPostsData, editPost }) {
   ) : (
     postsData.posts.map((post) => {
       return (
-        <div key={post.id} className="mb-5">
-          <div className="card">
+        <div className="container" key={post.id}>
+          <div className="card mb-5 bg-light bg-gradient">
             <div className="card-body">
               <div className="d-flex justify-content-between">
                 {!isUpdated ? (
-                  <Link to={`/post/${post.id}`}>
+                  <Link
+                    to={`/post/${post.id}`}
+                    className="text-reset text-decoration-none"
+                  >
                     <h2 className="card-title">{post.title}</h2>
                   </Link>
                 ) : (
@@ -67,7 +70,7 @@ function PostsViewer({ postsData, getPostsData, editPost }) {
                     />
                     <button
                       type="submit"
-                      className="btn btn-primary"
+                      className="btn btn-dark"
                       onClick={(e) => {
                         e.preventDefault();
                         editPost(post.id, postUpdate);
@@ -77,6 +80,14 @@ function PostsViewer({ postsData, getPostsData, editPost }) {
                     </button>
                   </div>
                 )}
+              </div>
+              <p className="card-text">
+                <span className="h5">
+                  {post.User.firstname} {post.User.lastname}
+                </span>{" "}
+                {moment(post.createdAt).fromNow()}
+              </p>
+              <div className="d-grid gap-2 d-flex justify-content-start">
                 <PostEdit
                   userId={post.userId}
                   postId={post.id}
@@ -85,19 +96,14 @@ function PostsViewer({ postsData, getPostsData, editPost }) {
                 />
                 <PostDelete userId={post.userId} postId={post.id} />
               </div>
-              <p className="card-text">
-                Posté par{" "}
-                <span className="h5">
-                  {post.User.firstname} {post.User.lastname}
-                </span>{" "}
-                {moment(post.createdAt).fromNow()}
-              </p>
             </div>
             <img src={post.attachment} className="card-img-top" alt="Img" />
             <div className="d-flex justify-content-between">
-              <button className="btn btn-primary">likes : {post.likes}</button>
-              <LinkButton to={`/post/${post.id}`} className="btn btn-primary">
-                Commentaires : {post.comments}
+              <button className="btn btn-dark">
+                <i className="fas fa-heart"></i> {post.likes}
+              </button>
+              <LinkButton to={`/post/${post.id}`} className="btn btn-dark">
+                <i className="fas fa-comments"></i> {post.comments}
               </LinkButton>
             </div>
           </div>
@@ -106,7 +112,7 @@ function PostsViewer({ postsData, getPostsData, editPost }) {
     })
   );
 
-  return <div className="container">{displayPosts}</div>;
+  return <Fragment>{displayPosts}</Fragment>;
 }
 
 const mapStateToProps = (state) => {

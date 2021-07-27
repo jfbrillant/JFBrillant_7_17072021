@@ -52,7 +52,7 @@ function Login(props) {
           </div>
           <LinkButton
             to="/feed"
-            className="btn btn-primary"
+            className="btn btn-dark"
             onClick={(e) => {
               props.SubmitLoginData(loginData);
             }}

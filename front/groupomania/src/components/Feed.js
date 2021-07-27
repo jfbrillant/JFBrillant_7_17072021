@@ -1,11 +1,12 @@
+import "../styles/Feed.scss"
 import React from "react";
-import PostForm from "../containers/PostSubmit"
+import PostSubmit from "../containers/PostSubmit"
 import PostsViewer from "../containers/PostsViewer";
 
 export default function Feed() {
   return (
-    <main>
-      <PostForm />
+    <main className="container">
+      <PostSubmit />
       <PostsViewer />
     </main>
   );

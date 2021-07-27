@@ -6,7 +6,7 @@ import {
 
 const editPostData = {
   isLoading: false,
-  postSubmitData: {
+  editPostData: {
     title: "",
     attachment: "",
   },

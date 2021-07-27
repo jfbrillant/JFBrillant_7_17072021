@@ -82,7 +82,7 @@ function SignUp(props) {
           <button
             type="submit"
             id="checkout-button"
-            className=" col btn btn-primary"
+            className=" col btn btn-dark"
             onClick={(e) => {
               e.preventDefault();
               props.SubmitSignUpData(signUpData);

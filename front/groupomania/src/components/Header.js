@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/icon-left-font-monochrome-white.svg";
 
 function Header() {
+
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+
+  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
   const isLogin = () => {
     if (localStorage.getItem("isLogin") === "true") {
@@ -13,9 +17,9 @@ function Header() {
   };
 
   return (
-    <header>
+    <header className="fixed-top">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
+        <div className="container-fluid d-flex">
           <NavLink to="/feed">
             <img
               src={logo}
@@ -33,13 +37,15 @@ function Header() {
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onClick={handleNavCollapse}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse ms-auto`} id="navbarSupportedContent">
             {isLogin() ? (
               <React.Fragment>
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li className="nav-item text-light nav-link">Bonjour { JSON.parse(localStorage.getItem("userData")).firstname }</li>
                 <li className="nav-item">
                   <NavLink
                     exact
@@ -51,14 +57,13 @@ function Header() {
                     }}
                     to="/login"
                   >
-                    Se déconnecter
+                    <i className="fas fa-sign-out-alt"></i> Se déconnecter
                   </NavLink>
                 </li>
               </ul>
-              <div className="text-light">Bonjour { JSON.parse(localStorage.getItem("userData")).firstname }</div>
               </React.Fragment>
             ) : (
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <NavLink
                     exact

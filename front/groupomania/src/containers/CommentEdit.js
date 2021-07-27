@@ -1,13 +1,13 @@
 import React from "react";
 import { Fragment } from "react";
 
-function PostEdit({ userId, isUpdated, setIsUpdated }) {
+function commentEdit({ userId, isUpdated, setIsUpdated }) {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   const displayEditButton =
     userData.isAdmin || userData.userId === userId ? (
       <button
-        className="btn btn-outline-dark"
+        className="btn btn-outline-dark btn-sm"
         onClick={(e) => {
           e.preventDefault();
           setIsUpdated(!isUpdated);
@@ -22,4 +22,4 @@ function PostEdit({ userId, isUpdated, setIsUpdated }) {
   return <Fragment>{displayEditButton}</Fragment>;
 }
 
-export default PostEdit;
+export default commentEdit;

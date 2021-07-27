@@ -8,8 +8,8 @@ function PostForm(props) {
     attachment: "",
   });
   return (
-    <div className="container">
-      <h1 className="mt-5 mb-5">Postez vos Gifs sur le feed !</h1>
+    <div className="container mb-5">
+      <h1 className="mt-5 mb-5">Postez vos Gifs sur le feed</h1>
       <form>
         <div className="form-group col-md-6 mb-3">
           <label htmlFor="title" className="form-label">
@@ -40,7 +40,7 @@ function PostForm(props) {
           />
         <button
           type="submit"
-          className="btn btn-primary"
+          className="btn btn-dark mt-3"
           onClick={(e) => {
             e.preventDefault();
             props.SubmitPostData(postSubmitData);
