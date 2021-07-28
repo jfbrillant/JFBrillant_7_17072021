@@ -5,7 +5,8 @@ import {
 } from "../constants/login";
 
 const stateSubmitLogin = {
-    loginData: {
+  isLogin: false,
+  loginData: {
     email: "",
     password: "",
   },
@@ -17,12 +18,14 @@ export const loginReducer = (state = stateSubmitLogin, action) => {
     case SUBMIT_LOGIN:
       return {
         ...state,
+        isLogin: false,
         loginData: action.payload,
         error: "",
       };
     case SUBMIT_LOGIN_SUCCES:
       return {
         ...state,
+        isLogin: true,
         loginData: {
           email: "",
           password: "",
@@ -32,6 +35,7 @@ export const loginReducer = (state = stateSubmitLogin, action) => {
     case SUBMIT_LOGIN_ERROR:
       return {
         ...state,
+        isLogin: false,
         loginData: {
           email: "",
           password: "",

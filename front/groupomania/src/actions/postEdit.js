@@ -42,7 +42,6 @@ export const apiPUT = (id, postUpdate) => {
       })
       .then((res) => {
         dispatch(postEditSuccesAction(res));
-        window.location.reload();
       })
       .catch((err) => {
         dispatch(postEditErrorAction(err));

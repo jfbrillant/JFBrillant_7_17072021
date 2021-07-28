@@ -2,24 +2,25 @@ import React from 'react'
 import { connect } from "react-redux";
 import { apiDELETE } from '../actions/postDelete';
 import { Fragment } from 'react';
-import LinkButton from '../components/LinkButton';
+import { useHistory } from "react-router-dom";
 
-function postDelete({ userId, postId, deletePost }) {
+function PostDelete({ userId, postId, deletePost }) {
+  
+  let history = useHistory();
 
     const userData = JSON.parse(localStorage.getItem('userData'));
 
     const displayDeleteButton =
       userData.isAdmin || userData.userId === userId ? (
-        <LinkButton
-          to="/feed"
+        <button
           className="btn btn-outline-danger"
           onClick={(e) => {
             e.preventDefault();
-            deletePost(postId);
+            deletePost(postId, history);
           }}
         >
           <i className="fas fa-trash-alt"></i>
-        </LinkButton>
+        </button>
       ) : (
         <Fragment></Fragment>
       );
@@ -36,8 +37,8 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-      deletePost: (id) => dispatch(apiDELETE(id)),
+      deletePost: (id, history) => dispatch(apiDELETE(id, history)),
     };
   };
 
-export default connect(mapStateToProps, mapDispatchToProps)(postDelete)
+export default connect(mapStateToProps, mapDispatchToProps)(PostDelete)

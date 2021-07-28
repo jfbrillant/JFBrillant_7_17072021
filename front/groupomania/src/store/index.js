@@ -7,6 +7,7 @@ import { onePostReducer } from '../reducers/onePost';
 import { commentReducer } from '../reducers/commentViewer';
 import { postEditReducer } from '../reducers/postEdit';
 import { postDeleteReducer } from '../reducers/postDelete';
+import { commentSubmitReducer } from '../reducers/commentSubmit';
 import { commentEditReducer } from '../reducers/commentEdit';
 import { commentDeleteReducer } from '../reducers/commentDelete';
 import thunk from 'redux-thunk'
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     getComments: commentReducer,
     editPost: postEditReducer,
     deletePost: postDeleteReducer,
+    submitComment: commentSubmitReducer,
     editComment: commentEditReducer,
     deleteComment: commentDeleteReducer
 })

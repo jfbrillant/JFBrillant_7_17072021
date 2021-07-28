@@ -39,7 +39,6 @@ import {
         })
         .then((res) => {
           dispatch(commentEditSuccesAction(res));
-          window.location.reload();
         })
         .catch((err) => {
           dispatch(commentEditErrorAction(err));

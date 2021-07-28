@@ -7,7 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Header from "./Header";
 import Login from "../containers/Login";
 import SignUp from "../containers/SignUp";
-import Feed from "./Feed";
+import Feed from "../containers/Feed";
 import OnePost from "../containers/OnePost";
 import Footer from "./Footer";
 

@@ -26,7 +26,7 @@ const submitLoginErrorAction = (err) => {
   };
 };
 
-export const apiPOST = (loginData) => {
+export const apiPOST = (loginData, history) => {
   return (dispatch) => {
     dispatch(submitLoginAction(loginData));
     axios
@@ -35,7 +35,7 @@ export const apiPOST = (loginData) => {
         dispatch(submitLoginSuccesAction(res));
         localStorage.setItem("userData", JSON.stringify(res.data));
         localStorage.setItem("isLogin", "true");
-        window.location.pathname = "/feed"
+        history.push("/feed")
       })
       .catch((err) => {
         dispatch(submitLoginErrorAction(err));

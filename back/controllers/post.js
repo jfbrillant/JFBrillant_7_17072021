@@ -271,6 +271,7 @@ exports.createComment = (req, res, next) => {
 
 exports.modifyComment = (req, res) => {
   models.Comment.findOne({
+    attributes: ["id", "userId", "postId", "content", "createdAt", "updatedAt"],
     where: {
       id: req.params.commentid,
     },
@@ -281,20 +282,21 @@ exports.modifyComment = (req, res) => {
       },
     ],
   }).then((commentFound) => {
-    console.log(commentFound)
     if (
       commentFound &&
-      (commentFound.User.dataValues.isAdmin || commentFound.dataValues.userId === commentFound.User.dataValues.id)
+      (commentFound.User.isAdmin ||
+        commentFound.userId === commentFound.User.id)
     ) {
-      commentFound
-        .update(
-          {content: req.body.content},
-          {where: {
-            id: req.body.commentId
-          }}
-        )
+      models.Comment.update(
+        { content: req.body.content },
+        {
+          where: {
+            id: req.params.commentid,
+          },
+        }
+      )
         .then(() =>
-          res.status(201).json({
+          res.status(202).json({
             message: "commentaire modifié !",
           })
         )
@@ -320,14 +322,16 @@ exports.deleteComment = (req, res) => {
         attributes: ["id", "isAdmin"],
       },
     ],
-  }).then((commentFound) => {
-    if (
-      commentFound &&
-      (commentFound.User.dataValues.isAdmin || commentFound.dataValues.userId === commentFound.User.dataValues.id)
-    ) {
-      commentFound
-        .destroy()
-        .then(() => {
+  })
+    .then((commentFound) => {
+      if (
+        commentFound &&
+        (commentFound.User.dataValues.isAdmin ||
+          commentFound.dataValues.userId === commentFound.User.dataValues.id)
+      ) {
+        models.Comment.destroy({
+          where: { id: req.params.commentid }
+        }).then(() => {
           models.Post.findOne({
             where: { id: req.params.postid },
           })
@@ -339,8 +343,7 @@ exports.deleteComment = (req, res) => {
                   })
                   .then(() =>
                     res.status(201).json({
-                      message:
-                        "Compteur de commentaires du post mis à jour !",
+                      message: "Compteur de commentaires du post mis à jour !",
                     })
                   )
                   .catch(() =>
@@ -350,9 +353,7 @@ exports.deleteComment = (req, res) => {
                     })
                   );
               } else {
-                res
-                  .status(404)
-                  .json({ error: "Pas de post ayant cet id !" });
+                res.status(404).json({ error: "Pas de post ayant cet id !" });
               }
             })
             .catch(() =>
@@ -360,17 +361,16 @@ exports.deleteComment = (req, res) => {
                 error: "Echec de la recherche du post !",
               })
             );
-        })
-    } else {
-      res.status(404).json({
-        error: "Pas de commentaires ayant cet id !",
-      });
-    }
-    
-  })
-  .catch(() =>
-  res.status(500).json({
-    error: "Echec de de la recherche du commentaire",
-  })
-);
+        });
+      } else {
+        res.status(404).json({
+          error: "Pas de commentaires ayant cet id !",
+        });
+      }
+    })
+    .catch(() =>
+      res.status(500).json({
+        error: "Echec de de la recherche du commentaire",
+      })
+    );
 };

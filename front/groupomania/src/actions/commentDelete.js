@@ -38,7 +38,6 @@ import {
         })
         .then((res) => {
           dispatch(commentDeleteSuccesAction(res));
-          window.location.reload();
         })
         .catch((err) => {
           dispatch(commentDeleteErrorAction(err));

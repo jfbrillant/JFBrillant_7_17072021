@@ -27,7 +27,7 @@ const postDeleteErrorAction = (err) => {
   };
 };
 
-export const apiDELETE = (id) => {
+export const apiDELETE = (id, history) => {
   return (dispatch) => {
     dispatch(postDeleteAction());
     axios
@@ -38,7 +38,7 @@ export const apiDELETE = (id) => {
       })
       .then((res) => {
         dispatch(postDeleteSuccesAction(res));
-        window.location.reload();
+        history.push("/feed")
       })
       .catch((err) => {
         dispatch(postDeleteErrorAction(err));

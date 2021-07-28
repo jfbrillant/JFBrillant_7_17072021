@@ -1,10 +1,12 @@
 import "../styles/Login.scss";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { apiPOST } from "../actions/login";
-import LinkButton from "../components/LinkButton";
+import { apiPOST } from "../actions/login"
+import { useHistory } from "react-router-dom";
 
 function Login(props) {
+
+  let history = useHistory();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -50,15 +52,15 @@ function Login(props) {
               }
             />
           </div>
-          <LinkButton
-            to="/feed"
+          <button
             className="btn btn-dark"
             onClick={(e) => {
-              props.SubmitLoginData(loginData);
+              e.preventDefault();
+              props.SubmitLoginData(loginData, history);
             }}
           >
             Valider
-          </LinkButton>
+          </button>
         </form>
       </div>
     </main>
@@ -73,7 +75,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    SubmitLoginData: (loginData) => dispatch(apiPOST(loginData)),
+    SubmitLoginData: (loginData, history) => dispatch(apiPOST(loginData, history)),
   };
 };
 

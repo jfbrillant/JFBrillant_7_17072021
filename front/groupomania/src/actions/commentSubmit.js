@@ -39,7 +39,6 @@ export const apiPOST = (commentSubmitData, id) => {
       })
       .then((res) => {
         dispatch(commentSubmitSuccesAction(res));
-        window.location.reload();
       })
       .catch((err) => {
         dispatch(commentSubmitErrorAction(err));

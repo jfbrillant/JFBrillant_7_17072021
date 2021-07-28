@@ -13,7 +13,7 @@ import {
     error: "",
   };
   
-  export const postSubmitReducer = (state = stateCommentSubmit, action) => {
+  export const commentSubmitReducer = (state = stateCommentSubmit, action) => {
     switch (action.type) {
       case SUBMIT_COMMENT:
         return {

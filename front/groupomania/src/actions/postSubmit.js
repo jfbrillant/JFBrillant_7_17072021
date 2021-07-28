@@ -42,7 +42,6 @@ export const apiPOST = (postSubmitData) => {
       })
       .then((res) => {
         dispatch(postSubmitSuccesAction(res));
-        window.location.pathname = "/feed";
       })
       .catch((err) => {
         dispatch(postSubmitErrorAction(err));
