@@ -5,8 +5,6 @@ import {
 } from "../constants/postsViewer";
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem('userData'));
-
 const getPostsAction = () => {
   return {
     type: GET_POSTS,
@@ -28,6 +26,8 @@ const getPostsErrorAction = (err) => {
 };
 
 export const apiGET = () => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
   return (dispatch) => {
     dispatch(getPostsAction());
     axios

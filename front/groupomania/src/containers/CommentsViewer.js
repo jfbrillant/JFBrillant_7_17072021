@@ -4,7 +4,7 @@ import { apiGET } from "../actions/commentsViewer";
 import { apiPUT } from "../actions/commentEdit";
 import Comment from "./Comment";
 
-function CommentsViewer({ commentsData, getCommentsData, id, editComment }) {
+function CommentsViewer({ commentsData, getCommentsData, id }) {
   useEffect(() => {
     getCommentsData(id);
   }, [getCommentsData, id]);

@@ -5,8 +5,6 @@ import {
 } from "../constants/postEdit";
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem("userData"));
-
 const postEditAction = (postUpdate) => {
   return {
     type: EDIT_POST,
@@ -29,6 +27,7 @@ const postEditErrorAction = (err) => {
 };
 
 export const apiPUT = (id, postUpdate) => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
   return (dispatch) => {
     dispatch(postEditAction(postUpdate));
     const data = new FormData();

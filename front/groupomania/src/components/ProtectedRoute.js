@@ -1,9 +1,10 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const isLogin = localStorage.getItem("isLogin");
-
 const ProtectedRoute = ({ component: Component, ...rest }) => {
+
+  const isLogin = localStorage.getItem("isLogin");
+  
   return (
     <Route
       {...rest}

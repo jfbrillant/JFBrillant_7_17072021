@@ -5,8 +5,6 @@ import {
 } from "../constants/commentSubmit";
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem('userData'));
-
 const commentSubmitAction = (commentSubmitData) => {
   return {
     type: SUBMIT_COMMENT,
@@ -29,12 +27,13 @@ const commentSubmitErrorAction = (err) => {
 };
 
 export const apiPOST = (commentSubmitData, id) => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
   return (dispatch) => {
     dispatch(commentSubmitAction(commentSubmitData));
     axios
       .post(`http://localhost:3000/api/post/${id}/comment`, commentSubmitData, {
         headers: {
-          'Authorization': `Bearer ${userData.token}`,
+          Authorization: `Bearer ${userData.token}`,
         },
       })
       .then((res) => {
@@ -45,5 +44,3 @@ export const apiPOST = (commentSubmitData, id) => {
       });
   };
 };
-
-  

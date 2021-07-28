@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import logo from "../assets/icon-left-font-monochrome-white.svg";
 
 function Header({ loginData }) {
+
+  console.log(localStorage);
+
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
 
@@ -22,14 +25,14 @@ function Header({ loginData }) {
   };
 
   useEffect(() => {
-    userIsLogin(loginData);
+    userIsLogin();
   }, [isLogin, loginData]);
 
   return (
     <header className="fixed-top">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid d-flex">
-          <NavLink to="/feed">
+          <Link to="/feed">
             <img
               src={logo}
               width="150"
@@ -37,7 +40,7 @@ function Header({ loginData }) {
               className="navbar-brand d-inline-block align-top"
               alt="Groupomania logo"
             />
-          </NavLink>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"

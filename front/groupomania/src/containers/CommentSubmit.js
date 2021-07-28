@@ -5,13 +5,14 @@ import { apiPOST } from "../actions/commentSubmit";
 function CommentSubmit(props) {
   const [commentSubmitData, setCommentSubmitData] = useState({
     postId: props.id,
-    content: ""
+    content: "",
   });
   return (
+    <div className="container">
       <form>
         <div className="form-group col mb-3">
           <label htmlFor="title" className="form-label">
-          Postez un commentaire !
+            Postez un commentaire !
           </label>
           <textarea
             className="form-control"
@@ -19,7 +20,10 @@ function CommentSubmit(props) {
             placeholder="commentaire"
             value={commentSubmitData.comment}
             onChange={(e) =>
-                setCommentSubmitData({ ...commentSubmitData, content: e.target.value })
+              setCommentSubmitData({
+                ...commentSubmitData,
+                content: e.target.value,
+              })
             }
             aria-describedby="comment"
           />
@@ -35,6 +39,7 @@ function CommentSubmit(props) {
           Poster
         </button>
       </form>
+    </div>
   );
 }
 
@@ -46,7 +51,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    SubmitCommentData: (commentSubmitData, id) => dispatch(apiPOST(commentSubmitData, id)),
+    SubmitCommentData: (commentSubmitData, id) =>
+      dispatch(apiPOST(commentSubmitData, id)),
   };
 };
 

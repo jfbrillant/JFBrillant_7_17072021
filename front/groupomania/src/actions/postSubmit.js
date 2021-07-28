@@ -5,8 +5,6 @@ import {
 } from "../constants/postSubmit";
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem("userData"));
-
 const postSubmitAction = (postSubmitData) => {
   return {
     type: SUBMIT_POSTS,
@@ -29,6 +27,7 @@ const postSubmitErrorAction = (err) => {
 };
 
 export const apiPOST = (postSubmitData) => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
   return (dispatch) => {
     dispatch(postSubmitAction(postSubmitData));
     const data = new FormData();

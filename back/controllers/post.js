@@ -58,6 +58,7 @@ exports.getOnePost = (req, res, next) => {
 };
 
 exports.createPost = (req, res, next) => {
+  console.log(req.params.verifiedUserID)
   models.User.findOne({
     where: { id: req.params.verifiedUserID },
   })

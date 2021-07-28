@@ -6,7 +6,7 @@ import {
 
 const statePosts = {
   isLoading: false,
-  posts: [],
+  posts: null,
   error: "",
 };
 
@@ -29,7 +29,7 @@ export const postReducer = (state = statePosts, action) => {
       return {
         ...state,
         isLoading: false,
-        posts: [],
+        posts: null,
         error: action.payload,
       };
 

@@ -5,8 +5,6 @@ import {
 } from "../constants/postDelete";
 import axios from "axios";
 
-const userData = JSON.parse(localStorage.getItem("userData"));
-
 const postDeleteAction = () => {
   return {
     type: DELETE_POST,
@@ -28,6 +26,7 @@ const postDeleteErrorAction = (err) => {
 };
 
 export const apiDELETE = (id, history) => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
   return (dispatch) => {
     dispatch(postDeleteAction());
     axios
@@ -38,7 +37,7 @@ export const apiDELETE = (id, history) => {
       })
       .then((res) => {
         dispatch(postDeleteSuccesAction(res));
-        history.push("/feed")
+        history.push("/feed");
       })
       .catch((err) => {
         dispatch(postDeleteErrorAction(err));
