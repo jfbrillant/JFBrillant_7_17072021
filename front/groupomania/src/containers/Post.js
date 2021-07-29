@@ -9,11 +9,10 @@ import { apiPUT } from "../actions/postEdit";
 import { connect } from "react-redux";
 
 function Post({ post, editPost }) {
-
   const [isUpdated, setIsUpdated] = useState(false);
   const [postUpdate, setPostUpdate] = useState({
-    title: "",
-    attachment: "",
+    title: post.title,
+    attachment: post.attachment,
   });
 
   return (
@@ -32,7 +31,7 @@ function Post({ post, editPost }) {
               <input
                 type="text"
                 className="form-control"
-                placeholder={post.title}
+                placeholder="titre"
                 value={postUpdate.title}
                 onChange={(e) =>
                   setPostUpdate({
@@ -69,9 +68,12 @@ function Post({ post, editPost }) {
           )}
         </div>
         <p className="card-text">
-          <span className="h5">
+          <Link
+            to={`/profil/${post.userId}`}
+            className="h5 text-reset text-decoration-none"
+          >
             {post.User.firstname} {post.User.lastname}
-          </span>{" "}
+          </Link>{" "}
           {moment(post.createdAt).fromNow()}
         </p>
         <div className="d-grid gap-2 d-flex justify-content-start">
@@ -102,8 +104,7 @@ function Post({ post, editPost }) {
 const mapStateToProps = (state) => {
   return {
     postsData: state.getPosts,
-    onePostData: state.getOnePost
-
+    onePostData: state.getOnePost,
   };
 };
 

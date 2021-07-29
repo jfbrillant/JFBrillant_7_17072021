@@ -5,6 +5,7 @@ import PostsViewer from "./PostsViewer";
 import { connect } from "react-redux";
 
 function Feed({ submitPostState, deletePostState, editPostState }) {
+  console.log(JSON.parse(localStorage.getItem("userData")).isAdmin)
   return (
     <main className="container">
       {submitPostState.isLoading ||

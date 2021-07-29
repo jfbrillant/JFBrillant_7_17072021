@@ -10,7 +10,7 @@ function Comment({ comment, editComment }) {
 
   const [isUpdated, setIsUpdated] = useState(false);
   const [commentUpdate, setCommentUpdate] = useState({
-    content: "",
+    content: comment.content,
   });
 
   return (
@@ -41,7 +41,7 @@ function Comment({ comment, editComment }) {
           <div>
             <textarea
               className="form-control mt-1 mb-1"
-              placeholder={comment.content}
+              placeholder="commentaire"
               value={commentUpdate.content}
               onChange={(e) =>
                 setCommentUpdate({

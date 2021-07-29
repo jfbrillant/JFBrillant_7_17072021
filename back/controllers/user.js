@@ -1,62 +1,96 @@
-const bcrypt = require("bcrypt");
 const models = require("../models");
-const jwt = require("jsonwebtoken");
 
-exports.signup = (req, res, next) => {
+exports.getUser = (req, res) => {
   models.User.findOne({
-    attributes: ['email'],
-    where: { email: req.body.email }
+    where: { id: req.params.id },
   })
-  .then((userFound) => {
-    if (!userFound) {
-      bcrypt
-      .hash(req.body.password, 10)
-      .then((hash) => {
-        const newUser = models.User.create({
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          email: req.body.email,
-          password: hash,
-          isAdmin: 0
-        });
-        newUser
-          .then(() => res.status(201).json({ 
-            message: 'Utilisateur créé',
-            id: newUser.id 
-          }))
-          .catch((error) => res.status(400).json({ error }));
-      })
-      .catch((error) => res.status(500).json({ error }));
-    } else {
-      return res.status(409).json({ error: "L'utilisateur existe déjà" });
-    }
-  })
-  .catch(() => res.status(500).json({ error: "Impossible de vérifier l'utilisateur" }));
-};
-
-exports.login = (req, res, next) => {
-  models.User.findOne({
-    where: { email: req.body.email }
-  })
-    .then((userFound) => {
-      if (userFound) {
-        bcrypt
-        .compare(req.body.password, userFound.password)
-        .then((valid) => {
-          if (!valid) {
-            return res.status(401).json({ error: "Mot de passe incorrect !" });
-          }
-          res.status(200).json({
-            userId: userFound.id,
-            firstname:userFound.firstname,
-            isAdmin: userFound.isAdmin,
-            token: jwt.sign({ userId: userFound.id }, "RANDOM_TOKEN_SECRET"),
-          });
-        })
-        .catch(() => res.status(500).json({ error: "Echec de l'authentification" }));
+    .then((user) => {
+      if (user) {
+        res.status(200).json(user);
       } else {
-        return res.status(401).json({ error: "Utilisateur non trouvé !" });
+        res.status(404).json({ error: "Pas d'utilisateur trouvé !" });
       }
     })
-    .catch(() => res.status(500).json({ error: "Impossible de vérifier l'utilisateur" }));
+    .catch(() => {
+      res.status(500).json({
+        error: "Echec lors de la récupération de l'utilisateur",
+      });
+    });
+};
+
+exports.editUser = (req, res) => {
+  models.User.findOne({
+    where: { id: req.params.id },
+  })
+    .then((userFound) => {
+      userFound.id
+      if (userFound && (userFound.isAdmin || req.params.id == userFound.id)) {
+        models.User.update(
+          {
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+          },
+          {
+            where: {
+              id: req.params.id,
+            },
+          }
+        )
+          .then(() =>
+            res.status(202).json({
+              message: "Utilisateur modifié !",
+            })
+          )
+          .catch(() =>
+            res.status(500).json({
+              error: "Echec lors de la modification de l'utilisateur",
+            })
+          );
+      } else {
+        res.status(404).json({
+          error: "l'utilisateur' n'a pas été trouvé",
+        });
+      }
+    })
+    .catch(() =>
+      res.status(500).json({
+        error: "Echec lors de la recherche de l'utilisateur",
+      })
+    );
+};
+
+exports.deleteUser = (req, res) => {
+  models.User.findOne({
+    where: { id: req.params.id },
+  })
+    .then((userFound) => {
+      if (userFound && (userFound.isAdmin || req.params.id == userFound.id)) {
+        models.User.destroy(
+          {
+            where: {
+              id: req.params.id,
+            },
+          }
+        )
+          .then(() =>
+            res.status(202).json({
+              message: "Utilisateur supprimé !",
+            })
+          )
+          .catch(() =>
+            res.status(500).json({
+              error: "Echec lors de la suppression de l'utilisateur",
+            })
+          );
+      } else {
+        res.status(404).json({
+          error: "l'utilisateur' n'a pas été trouvé",
+        });
+      }
+    })
+    .catch(() =>
+      res.status(500).json({
+        error: "Echec lors de la recherche de l'utilisateur",
+      })
+    );
 };

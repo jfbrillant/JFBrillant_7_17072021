@@ -10,6 +10,9 @@ import { postDeleteReducer } from '../reducers/postDelete';
 import { commentSubmitReducer } from '../reducers/commentSubmit';
 import { commentEditReducer } from '../reducers/commentEdit';
 import { commentDeleteReducer } from '../reducers/commentDelete';
+import { userReducer } from '../reducers/userViewer';
+import { userEditReducer } from '../reducers/userEdit';
+import { userDeleteReducer } from '../reducers/userDelete';
 import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
@@ -23,7 +26,10 @@ const rootReducer = combineReducers({
     deletePost: postDeleteReducer,
     submitComment: commentSubmitReducer,
     editComment: commentEditReducer,
-    deleteComment: commentDeleteReducer
+    deleteComment: commentDeleteReducer,
+    getUser: userReducer,
+    editUser: userEditReducer,
+    deleteUser: userDeleteReducer,
 })
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

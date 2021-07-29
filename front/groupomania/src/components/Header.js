@@ -3,9 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import logo from "../assets/icon-left-font-monochrome-white.svg";
 
-function Header({ loginData }) {
-
-  console.log(localStorage);
+function Header({ loginData, deleteUserState }) {
 
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
@@ -26,7 +24,7 @@ function Header({ loginData }) {
 
   useEffect(() => {
     userIsLogin();
-  }, [isLogin, loginData]);
+  }, [isLogin, loginData, deleteUserState]);
 
   return (
     <header className="fixed-top">
@@ -62,9 +60,15 @@ function Header({ loginData }) {
             {isLogin ? (
               <React.Fragment>
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li className="nav-item text-light nav-link">
-                    Bonjour{" "}
-                    {JSON.parse(localStorage.getItem("userData")).firstname}
+                  <li className="nav-item text-light">
+                    <NavLink
+                        exact
+                        to={`/profil/${JSON.parse(localStorage.getItem("userData")).userId}`}
+                        className="nav-link"
+                      >
+                      Bonjour{" "}
+                      {JSON.parse(localStorage.getItem("userData")).firstname}
+                    </NavLink>
                   </li>
                   <li className="nav-item">
                     <NavLink
@@ -118,6 +122,7 @@ function Header({ loginData }) {
 const mapStateToProps = (state) => {
   return {
     loginData: state.login,
+    deleteUserState: state.deleteUser,
   };
 };
 

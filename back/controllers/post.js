@@ -93,7 +93,7 @@ exports.createPost = (req, res, next) => {
     );
 };
 
-exports.modifyPost = (req, res) => {
+exports.editPost = (req, res) => {
   models.Post.findOne({
     where: { id: req.params.id },
     include: [
@@ -270,7 +270,7 @@ exports.createComment = (req, res, next) => {
     );
 };
 
-exports.modifyComment = (req, res) => {
+exports.editComment = (req, res) => {
   models.Comment.findOne({
     attributes: ["id", "userId", "postId", "content", "createdAt", "updatedAt"],
     where: {
@@ -311,7 +311,12 @@ exports.modifyComment = (req, res) => {
         error: "le commentaire n'a pas été trouvé",
       });
     }
-  });
+  })
+  .catch(() =>
+  res.status(500).json({
+    error: "Echec lors de la recherche du commentaire",
+  })
+);
 };
 
 exports.deleteComment = (req, res) => {

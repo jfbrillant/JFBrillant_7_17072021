@@ -1,7 +1,7 @@
 import React from "react";
 import { Fragment } from "react";
 
-function CommentEdit({ userId, isUpdated, setIsUpdated }) {
+function UserEdit({ userId, isUpdated, setIsUpdated }) {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   const displayEditButton =
@@ -22,4 +22,4 @@ function CommentEdit({ userId, isUpdated, setIsUpdated }) {
   return <Fragment>{displayEditButton}</Fragment>;
 }
 
-export default CommentEdit;
+export default UserEdit;

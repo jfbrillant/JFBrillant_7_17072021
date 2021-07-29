@@ -8,6 +8,7 @@ import Header from "./Header";
 import Login from "../containers/Login";
 import SignUp from "../containers/SignUp";
 import Feed from "../containers/Feed";
+import Profil from "../containers/Profil";
 import OnePost from "../containers/OnePost";
 import Footer from "./Footer";
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/signup" component={SignUp} />
             <ProtectedRoute path="/feed" component={Feed} />
             <ProtectedRoute exact path="/post/:id" component={OnePost} />
+            <ProtectedRoute exact path="/profil/:id" component={Profil} />
             <Route
               path="/"
               component={() => <div>Oups... La page n'existe pas !</div>}

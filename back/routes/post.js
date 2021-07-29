@@ -19,13 +19,13 @@ router.post(
   validate,
   postCtrl.createPost
 );
-router.put("/:id", auth, multer, postCtrl.modifyPost);
+router.put("/:id", auth, multer, postCtrl.editPost);
 router.delete("/:id", auth, postCtrl.deletePost);
 
 // Routes commentaires
 router.get("/:id/comment", auth, postCtrl.getComments);
 router.post("/:id/comment", auth, postCtrl.createComment);
-router.put("/:postid/comment/:commentid", auth, multer, postCtrl.modifyComment);
+router.put("/:postid/comment/:commentid", auth, multer, postCtrl.editComment);
 router.delete("/:postid/comment/:commentid", auth, postCtrl.deleteComment);
 
 module.exports = router;
