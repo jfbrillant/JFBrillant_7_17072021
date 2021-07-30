@@ -65,6 +65,9 @@ function Header({ loginData, deleteUserState }) {
                         exact
                         to={`/profil/${JSON.parse(localStorage.getItem("userData")).userId}`}
                         className="nav-link"
+                        onClick={() => {
+                          handleNavCollapse()
+                        }}
                       >
                       <i className="fas fa-user me-1"></i>
                       Bonjour{" "}
@@ -80,6 +83,7 @@ function Header({ loginData, deleteUserState }) {
                         localStorage.setItem("isLogin", "false");
                         localStorage.removeItem("userData");
                         handleIsLogin();
+                        handleNavCollapse();
                       }}
                     >
                       <i className="fas fa-sign-out-alt me-1"></i>Se déconnecter
@@ -96,6 +100,9 @@ function Header({ loginData, deleteUserState }) {
                     aria-current="page"
                     className="nav-link"
                     to="/login"
+                    onClick={() => {
+                      handleNavCollapse()
+                    }}
                   >
                     Se connecter
                   </NavLink>
@@ -107,6 +114,9 @@ function Header({ loginData, deleteUserState }) {
                     aria-current="page"
                     className="nav-link"
                     to="/signup"
+                    onClick={() => {
+                      handleNavCollapse()
+                    }}
                   >
                     Créer un compte
                   </NavLink>

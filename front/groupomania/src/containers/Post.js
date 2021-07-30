@@ -119,7 +119,7 @@ function Post({ post, editPost, editPostState }) {
           <i className="fas fa-heart"></i> {post.likes}
         </button>
         <LinkButton to={`/post/${post.id}`} className="btn btn-dark">
-          <i className="fas fa-comments"></i> {post.comments}
+          <i className="fas fa-comments"></i> {post.Comments.length !== 0 ? (post.Comments[0].num_comments) : "0"}
         </LinkButton>
       </div>
     </div>

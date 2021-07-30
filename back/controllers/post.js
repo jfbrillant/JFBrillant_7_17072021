@@ -1,21 +1,27 @@
 const models = require("../models");
 const fs = require("fs");
+const Sequelize = require("sequelize");
 
 exports.getAllPosts = (req, res, next) => {
-  const fields = req.query.fields;
-  const limit = parseInt(req.query.limit);
-  const offset = parseInt(req.query.offset);
-  const order = req.query.order;
-
   models.Post.findAll({
-    order: [order != null ? order.split(":") : ["createdAt", "DESC"]],
-    attributes: fields !== "*" && fields != null ? fields.split(",") : null,
-    limit: !isNaN(limit) ? limit : null,
-    offset: !isNaN(offset) ? offset : null,
+    order: [["createdAt", "DESC"]],
     include: [
       {
         model: models.User,
         attributes: ["firstname", "lastname"],
+      },
+      {
+        model: models.Comment,
+        attributes: {
+          include: [
+            [
+              Sequelize.literal(
+                `(SELECT COUNT(*) FROM comments WHERE postId = Post.id)`
+              ),
+              "num_comments",
+            ],
+          ],
+        },
       },
     ],
   })
@@ -41,6 +47,19 @@ exports.getOnePost = (req, res, next) => {
         model: models.User,
         attributes: ["firstname", "lastname"],
       },
+      {
+        model: models.Comment,
+        attributes: {
+          include: [
+            [
+              Sequelize.literal(
+                `(SELECT COUNT(*) FROM comments WHERE postId = ${req.params.id})`
+              ),
+              "num_comments",
+            ],
+          ],
+        },
+      },
     ],
   })
     .then((onePost) => {
@@ -58,7 +77,7 @@ exports.getOnePost = (req, res, next) => {
 };
 
 exports.createPost = (req, res, next) => {
-  console.log(req.params.verifiedUserID)
+  console.log(req.params.verifiedUserID);
   models.User.findOne({
     where: { id: req.params.verifiedUserID },
   })
@@ -222,40 +241,11 @@ exports.createComment = (req, res, next) => {
           userId: req.params.verifiedUserID,
         });
         newComment
-          .then(() => {
-            models.Post.findOne({
-              where: { id: req.body.postId },
+          .then(() =>
+            res.status(201).json({
+              message: "Commentaire créé !",
             })
-              .then((postFound) => {
-                if (postFound) {
-                  postFound
-                    .update({
-                      comments: postFound.dataValues.comments + 1,
-                    })
-                    .then(() =>
-                      res.status(201).json({
-                        message:
-                          "Compteur de commentaires du post mis à jour !",
-                      })
-                    )
-                    .catch(() =>
-                      res.status(500).json({
-                        error:
-                          "Echec lors de la mise à jour du compteur de commentaires du post",
-                      })
-                    );
-                } else {
-                  res
-                    .status(404)
-                    .json({ error: "Pas de commentaires ayant cet id !" });
-                }
-              })
-              .catch(() =>
-                res.status(500).json({
-                  error: "Echec de la recherche du commentaire !",
-                })
-              );
-          })
+          )
           .catch(() =>
             res.status(500).json({
               error: "Echec lors de l'enregistrement du commentaire",
@@ -282,41 +272,42 @@ exports.editComment = (req, res) => {
         attributes: ["id", "isAdmin"],
       },
     ],
-  }).then((commentFound) => {
-    if (
-      commentFound &&
-      (commentFound.User.isAdmin ||
-        commentFound.userId === commentFound.User.id)
-    ) {
-      models.Comment.update(
-        { content: req.body.content },
-        {
-          where: {
-            id: req.params.commentid,
-          },
-        }
-      )
-        .then(() =>
-          res.status(202).json({
-            message: "commentaire modifié !",
-          })
+  })
+    .then((commentFound) => {
+      if (
+        commentFound &&
+        (commentFound.User.isAdmin ||
+          commentFound.userId === commentFound.User.id)
+      ) {
+        models.Comment.update(
+          { content: req.body.content },
+          {
+            where: {
+              id: req.params.commentid,
+            },
+          }
         )
-        .catch(() =>
-          res.status(500).json({
-            error: "Echec lors de la modification du commentaire",
-          })
-        );
-    } else {
-      res.status(404).json({
-        error: "le commentaire n'a pas été trouvé",
-      });
-    }
-  })
-  .catch(() =>
-  res.status(500).json({
-    error: "Echec lors de la recherche du commentaire",
-  })
-);
+          .then(() =>
+            res.status(202).json({
+              message: "commentaire modifié !",
+            })
+          )
+          .catch(() =>
+            res.status(500).json({
+              error: "Echec lors de la modification du commentaire",
+            })
+          );
+      } else {
+        res.status(404).json({
+          error: "le commentaire n'a pas été trouvé",
+        });
+      }
+    })
+    .catch(() =>
+      res.status(500).json({
+        error: "Echec lors de la recherche du commentaire",
+      })
+    );
 };
 
 exports.deleteComment = (req, res) => {
@@ -336,38 +327,18 @@ exports.deleteComment = (req, res) => {
           commentFound.dataValues.userId === commentFound.User.dataValues.id)
       ) {
         models.Comment.destroy({
-          where: { id: req.params.commentid }
-        }).then(() => {
-          models.Post.findOne({
-            where: { id: req.params.postid },
-          })
-            .then((postFound) => {
-              if (postFound) {
-                postFound
-                  .update({
-                    comments: postFound.dataValues.comments - 1,
-                  })
-                  .then(() =>
-                    res.status(201).json({
-                      message: "Compteur de commentaires du post mis à jour !",
-                    })
-                  )
-                  .catch(() =>
-                    res.status(500).json({
-                      error:
-                        "Echec lors de la mise à jour du compteur de commentaires du post",
-                    })
-                  );
-              } else {
-                res.status(404).json({ error: "Pas de post ayant cet id !" });
-              }
+          where: { id: req.params.commentid },
+        })
+          .then(() =>
+            res.status(201).json({
+              message: "Commentaire supprimé !",
             })
-            .catch(() =>
-              res.status(500).json({
-                error: "Echec de la recherche du post !",
-              })
-            );
-        });
+          )
+          .catch(() =>
+            res.status(500).json({
+              error: "Echec de le suppression du commentaire",
+            })
+          );
       } else {
         res.status(404).json({
           error: "Pas de commentaires ayant cet id !",
