@@ -56,7 +56,7 @@ exports.login = (req, res, next) => {
               userId: userFound.id,
               firstname: userFound.firstname,
               isAdmin: userFound.isAdmin,
-              token: jwt.sign({ userId: userFound.id }, "RANDOM_TOKEN_SECRET"),
+              token: jwt.sign({ userId: userFound.id }, process.env.SECRET_KEY_JWT),
             });
           })
           .catch(() =>

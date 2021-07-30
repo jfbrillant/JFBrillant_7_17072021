@@ -27,17 +27,22 @@ function PostForm(props) {
             aria-describedby="post-title"
           />
         </div>
-        <input
+        <div className="form-group col-md-6 mb-3">
+          <input
             type="file"
             name="attachment"
             className="form-control"
             id="post-file"
             accept=".jpg,.gif"
             onChange={(e) =>
-              setPostSubmitData({ ...postSubmitData, attachment: e.target.files[0] })
+              setPostSubmitData({
+                ...postSubmitData,
+                attachment: e.target.files[0],
+              })
             }
             aria-describedby="post-title"
           />
+        </div>
         <button
           type="submit"
           className="btn btn-dark mt-3"

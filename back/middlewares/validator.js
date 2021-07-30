@@ -2,47 +2,82 @@ const { check, validationResult } = require("express-validator");
 
 const signUpValidationRules = () => {
   return [
-    check(
-      "firstname",
-      "Le prénom doit contenir au moins 2 caractères et uniquement des lettres"
-    )
-      .isAlpha()
-      .isLength({ min: 2 }),
-      check(
-        "lastname",
-        "Le nom doit contenir au moins 3 caractères et uniquement des lettres"
-      )
-        .isAlpha()
-        .isLength({ min: 3 }),
-    check("email", "L'email n'est pas valide").isEmail().normalizeEmail(),
-    check(
-      "password",
-      "Le mot de passe doit contenir au moins 8 caractères et uniquement des chiffres et des lettres"
-    )
-      .isAlphanumeric()
-      .isLength({ min: 8 }),
+    check("firstname")
+      .exists()
+      .withMessage("Le prénom est requis")
+      .isLength({ min: 2 })
+      .withMessage("Le prénom doit contenir 2 caractères au minimum"),
+    check("lastname")
+      .exists()
+      .withMessage("Le nom est requis")
+      .isLength({ min: 2 })
+      .withMessage("Le nom doit contenir 2 caractères au minimum"),
+    check("email")
+      .exists()
+      .withMessage("L'email est requis")
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("Le format de l'email n'est pas valide"),
+    check("password")
+      .exists()
+      .withMessage("Le mot de passe est requis")
+      .isLength({ min: 8 })
+      .withMessage("Le mot de passe doit contenir 8 caractères au minimum"),
   ];
 };
 
 const loginValidationRules = () => {
   return [
-    check("email", "L'email n'est pas valide").isEmail().normalizeEmail(),
-    check(
-      "password",
-      "Le mot de passe doit contenir au moins 8 caractères et uniquement des chiffres et des lettres"
-    )
-      .isAlphanumeric()
-      .isLength({ min: 8 }),
+    check("email")
+      .exists()
+      .withMessage("L'email est requis")
+      .isEmail()
+      .normalizeEmail()
+      .withMessage("Le format de l'email n'est pas valide"),
+    check("password")
+      .exists()
+      .withMessage("Le mot de passe est requis")
+      .isLength({ min: 8 })
+      .withMessage("Le mot de passe doit contenir 8 caractères au minimum"),
   ];
 };
 
-const submitPostValidationRules = () => {
+const postValidationRules = () => {
   return [
-    check("title", "Le titre n'est pas valide")
-    .isAlphanumeric()
-    .isLength({ min: 2 }),
+    check("title")
+    .exists()
+    .withMessage("Le titre est requis")
+    .isLength({ min: 2 })
+    .withMessage("Le titre doit contenir 2 caractères au minimum"),
   ];
 };
+
+const commentValidationRules = () => {
+  return [
+    check("content")
+    .exists()
+    .withMessage("Le commentaire ne peut être vide")
+    .isLength({ min: 2 })
+    .withMessage("Le commentaire doit contenir 2 caractères au minimum"),
+  ];
+};
+
+const userValidationRules = () => {
+  return [
+    check("firstname")
+      .exists()
+      .withMessage("Le prénom est requis")
+      .isLength({ min: 2 })
+      .withMessage("Le prénom doit contenir 2 caractères au minimum"),
+    check("lastname")
+      .exists()
+      .withMessage("Le nom est requis")
+      .isLength({ min: 2 })
+      .withMessage("Le nom doit contenir 2 caractères au minimum"),
+  ];
+};
+
+
 
 const validate = (req, res, next) => {
   const errors = validationResult(req);
@@ -55,6 +90,8 @@ const validate = (req, res, next) => {
 module.exports = {
   signUpValidationRules,
   loginValidationRules,
-  submitPostValidationRules,
+  postValidationRules,
+  commentValidationRules,
+  userValidationRules,
   validate,
 };

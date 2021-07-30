@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/auth");
 const {
-  submitPostValidationRules,
+  postValidationRules,
+  commentValidationRules,
   validate,
 } = require("../middlewares/validator");
 const multer = require("../middlewares/multer-config");
@@ -15,17 +16,17 @@ router.post(
   "/",
   auth,
   multer,
-  submitPostValidationRules(),
+  postValidationRules(),
   validate,
   postCtrl.createPost
 );
-router.put("/:id", auth, multer, postCtrl.editPost);
+router.put("/:id", auth, multer, postValidationRules(), validate, postCtrl.editPost);
 router.delete("/:id", auth, postCtrl.deletePost);
 
 // Routes commentaires
 router.get("/:id/comment", auth, postCtrl.getComments);
-router.post("/:id/comment", auth, postCtrl.createComment);
-router.put("/:postid/comment/:commentid", auth, multer, postCtrl.editComment);
+router.post("/:id/comment", auth, commentValidationRules(), validate, postCtrl.createComment);
+router.put("/:postid/comment/:commentid", auth, multer, commentValidationRules(), validate, postCtrl.editComment);
 router.delete("/:postid/comment/:commentid", auth, postCtrl.deleteComment);
 
 module.exports = router;

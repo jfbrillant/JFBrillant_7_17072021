@@ -16,16 +16,16 @@ function Profil({
   const id = useParams().id;
   const activeUserId = JSON.parse(localStorage.getItem("userData")).userId;
 
-  useEffect(() => {
-    getUser(id);
-  }, [getUser, editUserState, id]);
-
   const [isUpdated, setIsUpdated] = useState(false);
   const [userUpdate, setUserUpdate] = useState({
     firstname: userData.firstname,
     lastname: userData.lastname,
   });
-
+  
+  useEffect(() => {
+    getUser(id);
+  }, [getUser, editUserState, id]);
+  
   return (
     <main className="container">
       {!userData ? (
