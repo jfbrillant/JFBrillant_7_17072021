@@ -22,7 +22,7 @@ const postSubmitSuccesAction = (res) => {
 const postSubmitErrorAction = (err) => {
   return {
     type: SUBMIT_POSTS_ERROR,
-    payload: err,
+    payload: err.response.data.error,
   };
 };
 

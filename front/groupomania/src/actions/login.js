@@ -22,7 +22,7 @@ const submitLoginSuccesAction = (res) => {
 const submitLoginErrorAction = (err) => {
   return {
     type: SUBMIT_LOGIN_ERROR,
-    payload: err,
+    payload: err.response.data.error,
   };
 };
 

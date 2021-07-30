@@ -2,7 +2,7 @@ const { check, validationResult } = require("express-validator");
 
 const signUpValidationRules = () => {
   return [
-    check("firstname")
+    check("firstname", "Veuillez verifier les champs invalides")
       .exists()
       .withMessage("Le prénom est requis")
       .isLength({ min: 2 })

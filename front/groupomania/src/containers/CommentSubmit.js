@@ -1,12 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/commentSubmit";
+import SimpleReactValidator from 'simple-react-validator';
 
 function CommentSubmit(props) {
+
   const [commentSubmitData, setCommentSubmitData] = useState({
     postId: props.id,
     content: "",
   });
+
+  const [, forceUpdate] = useState()
+  const validator = useRef(new SimpleReactValidator({
+    messages: {
+      required: 'Le champ :attribute est requis',
+      alpha_num_dash_space: 'Le :attribute doit contenir uniquement des lettres, des chiffres et des espaces',
+      between: 'Le titre doit contenir entre :min et :max carractères'
+    },
+  }))
+
+  const submitForm = () => {
+    if (validator.current.allValid()) {
+      props.SubmitCommentData(commentSubmitData, props.id);
+    } else {
+      validator.current.showMessages(true);
+      forceUpdate(1)
+    }
+  }
+
   return (
     <div className="container">
       <form>
@@ -18,7 +39,7 @@ function CommentSubmit(props) {
             className="form-control"
             id="comment"
             placeholder="commentaire"
-            value={commentSubmitData.comment}
+            value={commentSubmitData.content}
             onChange={(e) =>
               setCommentSubmitData({
                 ...commentSubmitData,
@@ -27,18 +48,20 @@ function CommentSubmit(props) {
             }
             aria-describedby="comment"
           />
+          {validator.current.message('commentaire', commentSubmitData.content, 'required|alpha_num_dash_space|between:2,500')}
         </div>
         <button
           type="submit"
           className="btn btn-dark mb-3"
           onClick={(e) => {
             e.preventDefault();
-            props.SubmitCommentData(commentSubmitData, props.id);
+            submitForm();
           }}
         >
           Poster
         </button>
       </form>
+      <div className="text-danger mt-2">{props.postSubmitData.error}</div>
     </div>
   );
 }

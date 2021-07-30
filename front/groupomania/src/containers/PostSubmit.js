@@ -1,12 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/postSubmit";
+import SimpleReactValidator from 'simple-react-validator';
 
 function PostForm(props) {
+
   const [postSubmitData, setPostSubmitData] = useState({
     title: "",
     attachment: "",
   });
+
+  const [, forceUpdate] = useState()
+  const validator = useRef(new SimpleReactValidator({
+    messages: {
+      required: 'Le champ :attribute est requis',
+      alpha_num_dash_space: 'Le :attribute doit contenir uniquement des lettres, des chiffres et des espaces',
+      between: 'Le titre doit contenir entre :min et :max carractères'
+    },
+  }))
+
+  const submitForm = () => {
+    if (validator.current.allValid()) {
+      props.SubmitPostData(postSubmitData);
+    } else {
+      validator.current.showMessages(true);
+      forceUpdate(1)
+    }
+  }
+
   return (
     <div className="container mb-5">
       <h1 className="mt-5 mb-5">Postez vos Gifs sur le feed</h1>
@@ -26,6 +47,7 @@ function PostForm(props) {
             }
             aria-describedby="post-title"
           />
+          {validator.current.message('titre', postSubmitData.title, 'required|alpha_num_dash_space|between:2,60')}
         </div>
         <div className="form-group col-md-6 mb-3">
           <input
@@ -48,12 +70,13 @@ function PostForm(props) {
           className="btn btn-dark mt-3"
           onClick={(e) => {
             e.preventDefault();
-            props.SubmitPostData(postSubmitData);
+            submitForm();
           }}
         >
           Poster
         </button>
       </form>
+      <div className="text-danger mt-2">{props.postSubmitData.error}</div>
     </div>
   );
 }

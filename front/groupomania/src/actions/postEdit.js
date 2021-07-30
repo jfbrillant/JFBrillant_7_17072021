@@ -22,7 +22,7 @@ const postEditSuccesAction = (res) => {
 const postEditErrorAction = (err) => {
   return {
     type: EDIT_POST_ERROR,
-    payload: err,
+    payload: err.response.data.error,
   };
 };
 

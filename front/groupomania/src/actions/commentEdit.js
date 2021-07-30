@@ -22,7 +22,7 @@ const commentEditSuccesAction = (res) => {
 const commentEditErrorAction = (err) => {
   return {
     type: EDIT_COMMENT_ERROR,
-    payload: err,
+    payload: err.response.data.error,
   };
 };
 

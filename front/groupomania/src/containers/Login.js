@@ -1,8 +1,9 @@
 import "../styles/Login.scss";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/login"
 import { useHistory } from "react-router-dom";
+import SimpleReactValidator from 'simple-react-validator';
 
 function Login(props) {
 
@@ -12,6 +13,24 @@ function Login(props) {
     email: "",
     password: "",
   });
+
+  const [, forceUpdate] = useState()
+  const validator = useRef(new SimpleReactValidator({
+    messages: {
+      required: 'Le champ :attribute est requis',
+      email: "L':attribute doit être un email valide",
+      min: "Le :attribute doit contenir au moins 8 carractères"
+    },
+  }))
+
+  const submitForm = () => {
+    if (validator.current.allValid()) {
+      props.SubmitLoginData(loginData, history);
+    } else {
+      validator.current.showMessages(true);
+      forceUpdate(1)
+    }
+  }
 
   return (
     <main>
@@ -35,6 +54,7 @@ function Login(props) {
               }
               aria-describedby="emailHelp"
             />
+            {validator.current.message('email', loginData.email, 'required|email')}
           </div>
           <div className="form-group col-md-6 mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label">
@@ -51,17 +71,19 @@ function Login(props) {
                 setLoginData({ ...loginData, password: e.target.value })
               }
             />
+            {validator.current.message('mot de passe', loginData.password, 'required|min:8')}
           </div>
           <button
             className="btn btn-dark"
             onClick={(e) => {
               e.preventDefault();
-              props.SubmitLoginData(loginData, history);
+              submitForm();
             }}
           >
             Valider
           </button>
         </form>
+        <div className="text-danger mt-2">{props.loginData.error}</div>
       </div>
     </main>
   );

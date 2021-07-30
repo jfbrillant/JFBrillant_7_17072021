@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import UserEdit from "./UserEdit";
 import UserDelete from "./UserDelete";
 import { apiGET } from "../actions/userViewer";
 import { apiPUT } from "../actions/userEdit";
+import SimpleReactValidator from 'simple-react-validator';
 
 function Profil({
   userData,
@@ -15,16 +16,39 @@ function Profil({
 }) {
   const id = useParams().id;
   const activeUserId = JSON.parse(localStorage.getItem("userData")).userId;
-
+  
   const [isUpdated, setIsUpdated] = useState(false);
-  const [userUpdate, setUserUpdate] = useState({
-    firstname: userData.firstname,
-    lastname: userData.lastname,
-  });
   
   useEffect(() => {
     getUser(id);
   }, [getUser, editUserState, id]);
+
+  const [userUpdate, setUserUpdate] = useState({
+    firstname: userData.firstname,
+    lastname: userData.lastname,
+  });
+
+  const [, forceUpdate] = useState()
+  const validator = useRef(new SimpleReactValidator({
+    messages: {
+      required: 'Le champ :attribute est requis',
+      alpha: 'Le :attribute doit contenir uniquement des lettres',
+      between: 'Le :attribute doit contenir entre :min et :max carractères'
+    },
+  }))
+
+  const submitForm = () => {
+    if (validator.current.allValid()) {
+      editUser(userData.id, userUpdate);
+      setIsUpdated(!isUpdated);
+    } else {
+      validator.current.showMessages(true);
+      forceUpdate(1)
+    }
+  }
+  
+
+  console.log(userData)
   
   return (
     <main className="container">
@@ -84,6 +108,7 @@ function Profil({
                     }
                     aria-describedby="user-firstname"
                   />
+                  {validator.current.message('prénom', userUpdate.firstname, 'required|alpha|between:2,40')}
                   <input
                     className="form-control mt-1 mb-1"
                     placeholder="Nom"
@@ -96,17 +121,18 @@ function Profil({
                     }
                     aria-describedby="user-lastname"
                   />
+                  {validator.current.message('nom', userUpdate.lastname, 'required|alpha|between:2,40')}
                   <button
                     type="submit"
                     className="btn btn-dark"
                     onClick={(e) => {
                       e.preventDefault();
-                      editUser(userData.id, userUpdate);
-                      setIsUpdated(!isUpdated);
+                      submitForm();
                     }}
                   >
                     Valider les modifications
                   </button>
+                  <div className="text-danger mt-2">{editUserState.error}</div>
                 </div>
               )}
             </div>

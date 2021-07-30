@@ -1,14 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/signup";
+import SimpleReactValidator from 'simple-react-validator';
 
 function SignUp(props) {
+  
   const [signUpData, setSignUpData] = useState({
     firstname: "",
     lastname: "",
     email: "",
     password: "",
   });
+
+  const [, forceUpdate] = useState()
+  const validator = useRef(new SimpleReactValidator({
+    messages: {
+      required: 'Le champ :attribute est requis',
+      email: "L':attribute doit être un email valide",
+      alpha: 'Le :attribute doit contenir uniquement des lettres',
+      min: "Le :attribute doit contenir au moins 8 carractères",
+      between: 'Le :attribute doit contenir entre :min et :max carractères'
+    },
+  }))
+
+  const submitForm = () => {
+    if (validator.current.allValid()) {
+      props.SubmitSignUpData(signUpData);
+    } else {
+      validator.current.showMessages(true);
+      forceUpdate(1)
+    }
+  }
 
   return (
     <main>
@@ -31,6 +53,7 @@ function SignUp(props) {
                 placeholder="Prénom"
                 required
               />
+              {validator.current.message('prénom', signUpData.firstname, 'required|alpha|between:2,40')}
             </div>
             <div className="form-group col-md-6 mb-3">
               <label htmlFor="inputLastName">Nom</label>
@@ -45,6 +68,7 @@ function SignUp(props) {
                 placeholder="Nom"
                 required
               />
+              {validator.current.message('nom', signUpData.lastname, 'required|alpha|between:2,40')}
             </div>
           </div>
           <div className="form-row">
@@ -53,7 +77,7 @@ function SignUp(props) {
               <input
                 type="email"
                 className="form-control"
-                id="inputMail"
+                id="inputEmail"
                 value={signUpData.email}
                 onChange={(e) =>
                   setSignUpData({ ...signUpData, email: e.target.value })
@@ -61,6 +85,7 @@ function SignUp(props) {
                 placeholder="exemple@mail.com"
                 required
               />
+              {validator.current.message('email', signUpData.email, 'required|email')}
             </div>
             <div className="form-group col-md-6 mb-3">
               <label htmlFor="inputPassword">Mot de passe</label>
@@ -76,6 +101,7 @@ function SignUp(props) {
                 autoComplete="on"
                 required
               />
+              {validator.current.message('mot de passe', signUpData.password, 'required|min:8')}
             </div>
           </div>
           <div id="unvalid-form-message" className="col"></div>
@@ -85,12 +111,13 @@ function SignUp(props) {
             className=" col btn btn-dark"
             onClick={(e) => {
               e.preventDefault();
-              props.SubmitSignUpData(signUpData);
+              submitForm();
             }}
           >
             Valider
           </button>
         </form>
+        <div className="text-danger mt-2">{props.signUpState.error}</div>
       </div>
     </main>
   );
@@ -98,7 +125,7 @@ function SignUp(props) {
 
 const mapStateToProps = (state) => {
   return {
-    signUpData: state.signUpData,
+    signUpState: state.signUp,
   };
 };
 

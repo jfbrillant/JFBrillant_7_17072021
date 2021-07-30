@@ -22,7 +22,7 @@ const submitSignUpSuccesAction = (res) => {
 const submitSignUpErrorAction = (err) => {
   return {
     type: SUBMIT_SIGNUP_ERROR,
-    payload: err.message,
+    payload: err.response.data.error,
   };
 };
 

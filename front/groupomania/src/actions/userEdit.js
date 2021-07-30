@@ -22,7 +22,7 @@ import {
   const userEditErrorAction = (err) => {
     return {
       type: EDIT_USER_ERROR,
-      payload: err,
+      payload: err.response.data.error,
     };
   };
   
