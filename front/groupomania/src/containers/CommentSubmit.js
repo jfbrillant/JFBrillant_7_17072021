@@ -5,12 +5,13 @@ import SimpleReactValidator from 'simple-react-validator';
 
 function CommentSubmit(props) {
 
+  const [, forceUpdate] = useState()
+  
   const [commentSubmitData, setCommentSubmitData] = useState({
     postId: props.id,
     content: "",
   });
 
-  const [, forceUpdate] = useState()
   const validator = useRef(new SimpleReactValidator({
     messages: {
       required: 'Le champ :attribute est requis',
@@ -22,6 +23,11 @@ function CommentSubmit(props) {
   const submitForm = () => {
     if (validator.current.allValid()) {
       props.SubmitCommentData(commentSubmitData, props.id);
+      setCommentSubmitData({
+        ...commentSubmitData,
+        content: "",
+      });
+      validator.current.showMessages(false);
     } else {
       validator.current.showMessages(true);
       forceUpdate(1)

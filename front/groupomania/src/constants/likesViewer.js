@@ -1,0 +1,3 @@
+export const GET_LIKES = 'GET_LIKES';
+export const GET_LIKES_SUCCES = 'GET_LIKES_SUCCES';
+export const GET_LIKES_ERROR = 'GET_LIKES_ERROR';

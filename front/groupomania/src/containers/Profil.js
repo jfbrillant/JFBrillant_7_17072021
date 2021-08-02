@@ -15,6 +15,7 @@ function Profil({
   deleteUserState,
 }) {
   const id = useParams().id;
+
   const activeUserId = JSON.parse(localStorage.getItem("userData")).userId;
   
   const [isUpdated, setIsUpdated] = useState(false);
@@ -46,9 +47,6 @@ function Profil({
       forceUpdate(1)
     }
   }
-  
-
-  console.log(userData)
   
   return (
     <main className="container">

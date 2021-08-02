@@ -4,12 +4,10 @@ import PostSubmit from "./PostSubmit";
 import PostsViewer from "./PostsViewer";
 import { connect } from "react-redux";
 
-function Feed({ submitPostState, deletePostState, editPostState }) {
+function Feed({ submitPostState }) {
   return (
     <main className="container">
-      {submitPostState.isLoading ||
-      deletePostState.isLoading ||
-      editPostState.isLoading ? (
+      {submitPostState.isLoading ? (
         <p> Chargement en cours...</p>
       ) : (
         <Fragment>
@@ -24,8 +22,6 @@ function Feed({ submitPostState, deletePostState, editPostState }) {
 const mapStateToProps = (state) => {
   return {
     submitPostState: state.submitPost,
-    deletePostState: state.deletePost,
-    editPostState: state.editPost,
   };
 };
 

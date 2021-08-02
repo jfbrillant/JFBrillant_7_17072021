@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import Post from "./Post";
 import { apiGET } from "../actions/postsViewer";
 
-function PostsViewer({ postsData, getPostsData }) {
+function PostsViewer({ postsData, getPostsData, editPostState, deletePostState }) {
   useEffect(() => {
     getPostsData();
-  }, [getPostsData]);
+  }, [getPostsData, editPostState, deletePostState]);
 
   const displayPosts = !postsData.posts ? (
     <p>Il n'y a aucun post... !</p>
@@ -30,6 +30,8 @@ function PostsViewer({ postsData, getPostsData }) {
 const mapStateToProps = (state) => {
   return {
     postsData: state.getPosts,
+    editPostState: state.editPost,
+    deletePostState: state.deletePost,
   };
 };
 

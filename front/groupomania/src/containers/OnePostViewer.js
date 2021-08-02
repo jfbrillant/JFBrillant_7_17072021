@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import Post from "./Post";
 import { apiGET } from "../actions/onePost";
 
-function OnePostViewer({ onePostsData, getOnePostData, id }) {
+function OnePostViewer({ onePostsData, getOnePostData, editPostState,  deletePostState, id }) {
 
   useEffect(() => {
     getOnePostData(id);
-  }, [getOnePostData, id]);
+  }, [getOnePostData, editPostState, deletePostState, id]);
 
 
   const displayPost = !onePostsData.post ? (
@@ -28,6 +28,8 @@ function OnePostViewer({ onePostsData, getOnePostData, id }) {
 const mapStateToProps = (state) => {
   return {
     onePostsData: state.getOnePost,
+    deletePostState: state.deletePost,
+    editPostState: state.editPost,
   };
 };
 

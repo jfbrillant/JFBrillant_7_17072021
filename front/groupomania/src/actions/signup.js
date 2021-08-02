@@ -26,14 +26,14 @@ const submitSignUpErrorAction = (err) => {
   };
 };
 
-export const apiPOST = (signUpData) => {
+export const apiPOST = (signUpData, history) => {
   return (dispatch) => {
     dispatch(submitSignUpAction(signUpData));
     axios
       .post("http://localhost:3000/api/auth/signup", signUpData)
       .then((res) => {
         dispatch(submitSignUpSuccesAction(res));
-        window.location.pathname = "/login";
+        history.push("/login");
       })
       .catch((err) => {
         dispatch(submitSignUpErrorAction(err));

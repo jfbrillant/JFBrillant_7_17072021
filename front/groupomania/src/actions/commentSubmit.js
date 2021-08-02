@@ -22,7 +22,7 @@ const commentSubmitSuccesAction = (res) => {
 const commentSubmitErrorAction = (err) => {
   return {
     type: SUBMIT_COMMENT_ERROR,
-    payload: err.response.data.error,
+    payload: err,
   };
 };
 

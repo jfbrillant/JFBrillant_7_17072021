@@ -8,15 +8,18 @@ import LinkButton from "../components/LinkButton";
 import { apiPUT } from "../actions/postEdit";
 import { connect } from "react-redux";
 import SimpleReactValidator from "simple-react-validator";
+import LikeButton from "./LikeButton";
 
 function Post({ post, editPost, editPostState }) {
+
+  const [, forceUpdate] = useState();
+
   const [isUpdated, setIsUpdated] = useState(false);
   const [postUpdate, setPostUpdate] = useState({
     title: post.title,
     attachment: post.attachment,
   });
 
-  const [, forceUpdate] = useState();
   const validator = useRef(new SimpleReactValidator({
     messages: {
       required: 'Le champ :attribute est requis',
@@ -28,11 +31,13 @@ function Post({ post, editPost, editPostState }) {
   const submitForm = () => {
     if (validator.current.allValid()) {
       editPost(post.id, postUpdate);
+      setIsUpdated(false);
     } else {
       validator.current.showMessages(true);
       forceUpdate(1);
     }
   };
+
 
   return (
     <div className="card mb-5 bg-light bg-gradient">
@@ -115,9 +120,7 @@ function Post({ post, editPost, editPostState }) {
         <img src={post.attachment} className="card-img-top" alt="Img" />
       </Link>
       <div className="d-flex justify-content-between">
-        <button className="btn btn-dark">
-          <i className="fas fa-heart"></i> {post.likes}
-        </button>
+        <LikeButton post={post}/>
         <LinkButton to={`/post/${post.id}`} className="btn btn-dark">
           <i className="fas fa-comments"></i> {post.Comments.length !== 0 ? (post.Comments[0].num_comments) : "0"}
         </LinkButton>
@@ -128,8 +131,6 @@ function Post({ post, editPost, editPostState }) {
 
 const mapStateToProps = (state) => {
   return {
-    postsData: state.getPosts,
-    onePostData: state.getOnePost,
     editPostState: state.editPost,
   };
 };
