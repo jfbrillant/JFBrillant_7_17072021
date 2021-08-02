@@ -1,3 +1,4 @@
+import "../styles/Post.scss";
 import React, { useState, useRef } from "react";
 import moment from "moment";
 import "moment/locale/fr";
@@ -40,7 +41,7 @@ function Post({ post, editPost, editPostState }) {
 
 
   return (
-    <div className="card mb-5 bg-light bg-gradient">
+    <div className="card mb-5 bg-dark">
       <div className="card-body">
         <div className="d-flex justify-content-between">
           {!isUpdated ? (
@@ -54,7 +55,7 @@ function Post({ post, editPost, editPostState }) {
             <div>
               <input
                 type="text"
-                className="form-control"
+                className="form-control my-3"
                 placeholder="titre"
                 value={postUpdate.title}
                 onChange={(e) =>
@@ -73,7 +74,7 @@ function Post({ post, editPost, editPostState }) {
               <input
                 type="file"
                 name="attachment"
-                className="form-control"
+                className="form-control my-3"
                 accept=".jpg,.gif"
                 onChange={(e) =>
                   setPostUpdate({
@@ -85,7 +86,7 @@ function Post({ post, editPost, editPostState }) {
               />
               <button
                 type="submit"
-                className="btn btn-dark"
+                className="btn btn-primary"
                 onClick={(e) => {
                   e.preventDefault();
                   submitForm();

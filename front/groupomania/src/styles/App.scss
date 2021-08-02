@@ -1,3 +1,8 @@
+body {
+    background-color: #181818;
+    color: #F3F3F3;
+}
+
 main {
     max-width: 850px !important;
 	margin: auto !important;
@@ -8,4 +13,23 @@ main {
 
 .srv-validation-message {
     color: #dc3545;
+}
+
+input {
+    background-color: #38434C !important;
+    color: #F3F3F3 !important;
+    border: none !important;
+    border-radius: 30px !important;
+}
+
+textarea {
+    background-color: #38434C !important;
+    color: #F3F3F3 !important;
+    border: none !important;
+    border-radius: 15px !important;
+}
+
+button {
+    border: none !important;
+    border-radius: 30px !important;
 }

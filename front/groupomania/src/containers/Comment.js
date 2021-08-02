@@ -1,3 +1,4 @@
+import "../styles/Comment.scss";
 import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -32,7 +33,7 @@ function Comment({ comment, editComment, editCommentState }) {
   };
 
   return (
-    <div className="card mb-2 rounded-3 bg-light bg-gradient" key={comment.id}>
+    <div className="card mb-2 bg-dark" key={comment.id}>
       <div className="card-body">
         <p className="card-text mb-0">
           <span className="h5">
@@ -58,7 +59,7 @@ function Comment({ comment, editComment, editCommentState }) {
         ) : (
           <div>
             <textarea
-              className="form-control mt-1 mb-1"
+              className="form-control my-3"
               placeholder="commentaire"
               value={commentUpdate.content}
               onChange={(e) =>
@@ -76,7 +77,7 @@ function Comment({ comment, editComment, editCommentState }) {
             )}
             <button
               type="submit"
-              className="btn btn-dark"
+              className="btn btn-primary"
               onClick={(e) => {
                 e.preventDefault();
                 submitForm();

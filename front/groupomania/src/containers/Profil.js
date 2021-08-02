@@ -1,3 +1,4 @@
+import "../styles/Profil.scss";
 import React, { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
@@ -69,9 +70,9 @@ function Profil({
               </h1>
             )
           }
-          <div className="card mb-2 rounded-3 bg-light bg-gradient">
+          <div className="card mb-2 bg-dark">
             <div className="card-body">
-              <div className="d-grid gap-2 mb-2 mt-2 d-flex justify-content-start">
+              <div className="d-grid gap-2 mb-2 d-flex justify-content-start">
                 <UserEdit
                   userId={userData.id}
                   isUpdated={isUpdated}
@@ -95,7 +96,7 @@ function Profil({
               ) : (
                 <div>
                   <input
-                    className="form-control mt-1 mb-1"
+                    className="form-control my-3"
                     placeholder="Prénom"
                     value={userUpdate.firstname}
                     onChange={(e) =>
@@ -108,7 +109,7 @@ function Profil({
                   />
                   {validator.current.message('prénom', userUpdate.firstname, 'required|alpha|between:2,40')}
                   <input
-                    className="form-control mt-1 mb-1"
+                    className="form-control my-3"
                     placeholder="Nom"
                     value={userUpdate.lastname}
                     onChange={(e) =>
@@ -122,7 +123,7 @@ function Profil({
                   {validator.current.message('nom', userUpdate.lastname, 'required|alpha|between:2,40')}
                   <button
                     type="submit"
-                    className="btn btn-dark"
+                    className="btn btn-primary"
                     onClick={(e) => {
                       e.preventDefault();
                       submitForm();

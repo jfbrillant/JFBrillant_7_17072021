@@ -1,3 +1,4 @@
+import "../styles/PostSubmit.scss";
 import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/postSubmit";
@@ -31,11 +32,8 @@ function PostForm(props) {
   return (
     <div className="container mb-5">
       <h1 className="mt-5 mb-5">Postez vos Gifs sur le feed</h1>
-      <form>
-        <div className="form-group col-md-6 mb-3">
-          <label htmlFor="title" className="form-label">
-            Titre
-          </label>
+      <form className="p-3 bg-dark">
+        <div className="form-group mb-3">
           <input
             type="text"
             className="form-control"
@@ -49,7 +47,7 @@ function PostForm(props) {
           />
           {validator.current.message('titre', postSubmitData.title, 'required|alpha_num_dash_space|between:2,60')}
         </div>
-        <div className="form-group col-md-6 mb-3">
+        <div className="form-group mb-3">
           <input
             type="file"
             name="attachment"
@@ -67,7 +65,7 @@ function PostForm(props) {
         </div>
         <button
           type="submit"
-          className="btn btn-dark mt-3"
+          className="btn btn-primary"
           onClick={(e) => {
             e.preventDefault();
             submitForm();

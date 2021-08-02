@@ -7,7 +7,7 @@ function PostEdit({ userId, isUpdated, setIsUpdated }) {
   const displayEditButton =
     userData.isAdmin || userData.userId === userId ? (
       <button
-        className="btn btn-outline-dark"
+        className="btn btn-outline-light btn-sm"
         onClick={(e) => {
           e.preventDefault();
           setIsUpdated(!isUpdated);

@@ -1,3 +1,4 @@
+import "../styles/Header.scss";
 import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -33,7 +34,7 @@ function Header({ loginData, deleteUserState }) {
           <Link to="/feed">
             <img
               src={logo}
-              width="150"
+              width="200"
               height="50"
               className="navbar-brand d-inline-block align-top"
               alt="Groupomania logo"

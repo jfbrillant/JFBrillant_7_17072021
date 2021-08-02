@@ -1,3 +1,4 @@
+import "../styles/CommentSubmit.scss";
 import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/commentSubmit";
@@ -35,13 +36,14 @@ function CommentSubmit(props) {
   }
 
   return (
-    <div className="container">
-      <form>
+    <div className="container mb-3">
+      <form className="bg-dark p-3">
         <div className="form-group col mb-3">
-          <label htmlFor="title" className="form-label">
+          <label htmlFor="commentSubmit" className="form-label">
             Postez un commentaire !
           </label>
           <textarea
+            name="commentSubmit"
             className="form-control"
             id="comment"
             placeholder="commentaire"
@@ -58,7 +60,7 @@ function CommentSubmit(props) {
         </div>
         <button
           type="submit"
-          className="btn btn-dark mb-3"
+          className="btn btn-primary"
           onClick={(e) => {
             e.preventDefault();
             submitForm();

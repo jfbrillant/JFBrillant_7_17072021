@@ -7,7 +7,7 @@ function UserEdit({ userId, isUpdated, setIsUpdated }) {
   const displayEditButton =
     userData.isAdmin || userData.userId === userId ? (
       <button
-        className="btn btn-outline-dark btn-sm"
+        className="btn btn-outline-light btn-sm"
         onClick={(e) => {
           e.preventDefault();
           setIsUpdated(!isUpdated);

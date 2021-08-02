@@ -13,7 +13,7 @@ function PostDelete({ userId, postId, deletePost }) {
     const displayDeleteButton =
       userData.isAdmin || userData.userId === userId ? (
         <button
-          className="btn btn-outline-danger"
+          className="btn btn-outline-danger btn-sm"
           onClick={(e) => {
             e.preventDefault();
             deletePost(postId, history);

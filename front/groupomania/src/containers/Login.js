@@ -74,7 +74,7 @@ function Login(props) {
             {validator.current.message('mot de passe', loginData.password, 'required|min:8')}
           </div>
           <button
-            className="btn btn-dark"
+            className="btn btn-primary"
             onClick={(e) => {
               e.preventDefault();
               submitForm();
