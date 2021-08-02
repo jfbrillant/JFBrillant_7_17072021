@@ -22,7 +22,7 @@ import {
         return {
           ...state,
           isLoading: false,
-          likes: [...state.likes, action.payload],
+          likes: [action.payload],
           error: "",
         };
       case GET_LIKES_ERROR:

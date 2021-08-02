@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { apiGET } from "../actions/likesViewer";
 import { apiPOST } from "../actions/likeCreate";
 import { apiDELETE } from "../actions/likeDelete";
-import LikeCount from "./LikeCount";
 
 function LikeButton({
   post,
@@ -11,8 +10,6 @@ function LikeButton({
   postLikesData,
   createLike,
   deleteLike,
-  createLikeState,
-  deleteLikeState,
 }) {
   const activeUserId = JSON.parse(localStorage.getItem("userData")).userId;
 
@@ -25,7 +22,7 @@ function LikeButton({
 
   useEffect(() => {
     getLikes(post.id)
-  }, [getLikes, post.id])
+  }, [getLikes, post.id, isLiked])
 
   useEffect(() => {
     const postLikes = postLikesData.find(
@@ -80,9 +77,9 @@ function LikeButton({
 
 const mapStateToProps = (state) => {
   return {
-    createLikeState: state.createLike,
-    deleteLikeState: state.deleteLike,
     postLikesData: state.getLikes.likes,
+    like: state.createLike.likeCreateData,
+    unlike: state.deleteLike.isLoading,
   };
 };
 

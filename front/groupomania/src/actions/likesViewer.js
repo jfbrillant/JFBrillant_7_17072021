@@ -28,9 +28,9 @@ import {
   export const apiGET = (postId) => {
     const userData = JSON.parse(localStorage.getItem("userData"));
   
-    return (dispatch) => {
+    return async (dispatch) => {
       dispatch(getLikesAction());
-      axios
+      await axios
         .get(`http://localhost:3000/api/post/${postId}/like`, {
           headers: {
             Authorization: `Bearer ${userData.token}`,
