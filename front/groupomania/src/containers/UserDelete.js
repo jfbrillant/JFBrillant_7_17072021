@@ -19,7 +19,7 @@ function UserDelete({ userId, deleteUser }) {
           deleteUser(userId, history);
         }}
       >
-        <i className="fas fa-trash-alt"></i>
+        <i className="far fa-trash-alt"></i>
       </button>
     ) : (
       <Fragment></Fragment>

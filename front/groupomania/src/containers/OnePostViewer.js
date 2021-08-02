@@ -17,9 +17,7 @@ function OnePostViewer({ onePostsData, getOnePostData, editPostState,  deletePos
   ) : onePostsData.error ? (
     <p>{onePostsData.error}</p>
   ) : (
-    <div className="container">
       <Post post={onePostsData.post} />
-    </div>
   );
 
   return <Fragment>{displayPost}</Fragment>;

@@ -1,5 +1,5 @@
 import "../styles/CommentSubmit.scss";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, Fragment } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/commentSubmit";
 import SimpleReactValidator from 'simple-react-validator';
@@ -36,8 +36,8 @@ function CommentSubmit(props) {
   }
 
   return (
-    <div className="container mb-3">
-      <form className="bg-dark p-3">
+    <Fragment>
+      <form className="bg-dark p-3 mb-3" id="comment">
         <div className="form-group col mb-3">
           <label htmlFor="commentSubmit" className="form-label">
             Postez un commentaire !
@@ -45,7 +45,6 @@ function CommentSubmit(props) {
           <textarea
             name="commentSubmit"
             className="form-control"
-            id="comment"
             placeholder="commentaire"
             value={commentSubmitData.content}
             onChange={(e) =>
@@ -70,7 +69,7 @@ function CommentSubmit(props) {
         </button>
       </form>
       <div className="text-danger mt-2">{props.postSubmitData.error}</div>
-    </div>
+    </Fragment>
   );
 }
 

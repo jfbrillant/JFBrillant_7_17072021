@@ -30,7 +30,7 @@ function PostForm(props) {
   }
 
   return (
-    <div className="container mb-5">
+    <div className="mb-5">
       <h1 className="mt-5 mb-5">Postez vos Gifs sur le feed</h1>
       <form className="p-3 bg-dark">
         <div className="form-group mb-3">

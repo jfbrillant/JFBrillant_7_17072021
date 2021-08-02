@@ -15,7 +15,7 @@ function CommentsDelete({ userId, postId, commentId, deleteComment }) {
           deleteComment(postId, commentId);
         }}
       >
-        <i className="fas fa-trash-alt"></i>
+        <i className="far fa-trash-alt"></i>
       </button>
     ) : (
       <Fragment></Fragment>

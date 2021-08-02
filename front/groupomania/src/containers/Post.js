@@ -4,7 +4,7 @@ import moment from "moment";
 import "moment/locale/fr";
 import PostDelete from "./PostDelete";
 import PostEdit from "./PostEdit";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from 'react-router-hash-link';
 import LinkButton from "../components/LinkButton";
 import { apiPUT } from "../actions/postEdit";
 import { connect } from "react-redux";
@@ -98,16 +98,18 @@ function Post({ post, editPost, editPostState }) {
             </div>
           )}
         </div>
-        <p className="card-text">
+        <div className="card-text d-flex align-items-center flex-wrap">
           <Link
             to={`/profil/${post.userId}`}
-            className="h5 text-reset text-decoration-none"
+            className="text-reset text-decoration-none"
           >
-            {post.User.firstname} {post.User.lastname}
-          </Link>{" "}
+            <p className="m-0 pe-3 h5">{post.User.firstname} {post.User.lastname}</p>
+          </Link>
+          <p className="m-0 pe-3">
+          <i className="pe-1 far fa-clock"></i>
           {moment(post.createdAt).fromNow()}
-        </p>
-        <div className="d-grid gap-2 d-flex justify-content-start">
+          </p>
+          <div>
           <PostEdit
             userId={post.userId}
             postId={post.id}
@@ -115,6 +117,7 @@ function Post({ post, editPost, editPostState }) {
             setIsUpdated={setIsUpdated}
           />
           <PostDelete userId={post.userId} postId={post.id} />
+          </div>
         </div>
       </div>
       <Link to={`/post/${post.id}`}>
@@ -122,9 +125,9 @@ function Post({ post, editPost, editPostState }) {
       </Link>
       <div className="d-flex justify-content-between">
         <LikeButton post={post}/>
-        <LinkButton to={`/post/${post.id}`} className="btn btn-dark">
+        <Link to={`/post/${post.id}#comment`} className="btn btn-dark">
           <i className="fas fa-comments"></i> {post.Comments.length !== 0 ? (post.Comments[0].num_comments) : "0"}
-        </LinkButton>
+        </Link>
       </div>
     </div>
   );

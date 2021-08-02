@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import CommentSubmit from "./CommentSubmit";
 import CommentsViewer from "./CommentsViewer";
@@ -9,11 +9,11 @@ function OnePost() {
 
   return (
     <main className="container">
-        <div className="container">
+        <Fragment>
           <OnePostViewer id={id} />
           <CommentSubmit id={id} />
           <CommentsViewer id={id} />
-        </div>
+        </Fragment>
     </main>
   );
 }

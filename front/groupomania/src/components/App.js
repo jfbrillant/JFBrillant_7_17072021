@@ -28,7 +28,7 @@ function App() {
             <ProtectedRoute exact path="/profil/:id" component={Profil} />
             <Route
               path="/"
-              component={() => <div>Oups... La page n'existe pas !</div>}
+              component={() => <main>Oups... La page n'existe pas !</main>}
             />
           </Switch>
           <Footer />

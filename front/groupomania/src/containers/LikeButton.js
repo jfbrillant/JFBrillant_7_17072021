@@ -1,3 +1,4 @@
+import "../styles/LikeButton.scss";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { apiGET } from "../actions/likesViewer";
@@ -64,7 +65,7 @@ function LikeButton({
   return (
     <button
       id={"likeButton" + post.id}
-      className="btn btn-dark"
+      className="btn btn-like btn-dark"
       onClick={(e) => {
         e.preventDefault();
         handleLike();

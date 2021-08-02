@@ -17,7 +17,7 @@ function CommentsViewer({ commentsData, getCommentsData, deleteCommentState, edi
   ) : (
     commentsData.comments.map((comment) => {
       return (
-        <div key={comment.id} className="container">
+        <div key={comment.id}>
           <Comment comment={comment} />
         </div>
       );

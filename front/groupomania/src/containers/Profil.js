@@ -62,10 +62,10 @@ function Profil({
             userData.id == activeUserId ? (
               <Fragment>
                 <h1>Bienvenue {userData.firstname}</h1>
-                <h2>Vous pouvez ici modifier ou supprimer votre profil</h2>
+                <h2 className="mb-5">Vous pouvez ici modifier ou supprimer votre profil</h2>
               </Fragment>
             ) : (
-              <h1>
+              <h1 className="mb-5">
                 Voici le profil de {userData.firstname} {userData.lastname}
               </h1>
             )

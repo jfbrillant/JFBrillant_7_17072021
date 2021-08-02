@@ -17,7 +17,7 @@ function PostsViewer({ postsData, getPostsData, editPostState, deletePostState }
   ) : (
     postsData.posts.map((post) => {
       return (
-        <div key={post.id} className="container">
+        <div key={post.id}>
           <Post post={post} />
         </div>
       );

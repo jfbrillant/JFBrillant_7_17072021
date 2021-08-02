@@ -61,7 +61,7 @@ function Header({ loginData, deleteUserState }) {
             {isLogin ? (
               <React.Fragment>
                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li className="nav-item text-light me-2">
+                  <li className="nav-item text-light me-3">
                     <NavLink
                         exact
                         to={`/profil/${JSON.parse(localStorage.getItem("userData")).userId}`}
@@ -70,7 +70,7 @@ function Header({ loginData, deleteUserState }) {
                           handleNavCollapse()
                         }}
                       >
-                      <i className="fas fa-user me-1"></i>
+                      <i className="text-primary fas fa-user me-2"></i>
                       Bonjour{" "}
                       {JSON.parse(localStorage.getItem("userData")).firstname}
                     </NavLink>
@@ -87,7 +87,7 @@ function Header({ loginData, deleteUserState }) {
                         handleNavCollapse();
                       }}
                     >
-                      <i className="fas fa-sign-out-alt me-1"></i>Se déconnecter
+                      <i className="text-danger fas fa-sign-out-alt me-2"></i>Se déconnecter
                     </NavLink>
                   </li>
                 </ul>

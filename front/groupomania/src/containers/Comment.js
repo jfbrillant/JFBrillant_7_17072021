@@ -1,5 +1,6 @@
 import "../styles/Comment.scss";
 import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import moment from "moment";
 import "moment/locale/fr";
@@ -35,13 +36,18 @@ function Comment({ comment, editComment, editCommentState }) {
   return (
     <div className="card mb-2 bg-dark" key={comment.id}>
       <div className="card-body">
-        <p className="card-text mb-0">
-          <span className="h5">
-            {comment.User.firstname} {comment.User.lastname}
-          </span>{" "}
+        <div className="card-text d-flex align-items-center flex-wrap">
+          <Link
+            to={`/profil/${comment.userId}`}
+            className="text-reset text-decoration-none"
+          >
+            <p className="m-0 pe-3 h5">{comment.User.firstname} {comment.User.lastname}</p>
+          </Link>
+          <p className="m-0 pe-3">
+          <i className="pe-1 far fa-clock"></i>
           {moment(comment.createdAt).fromNow()}
-        </p>
-        <div className="d-grid gap-2 mb-2 mt-2 d-flex justify-content-start">
+          </p>
+          <div>
           <CommentEdit
             userId={comment.userId}
             commentId={comment.id}
@@ -53,6 +59,7 @@ function Comment({ comment, editComment, editCommentState }) {
             postId={comment.postId}
             commentId={comment.id}
           />
+          </div>
         </div>
         {!isUpdated ? (
           <p className="card-text">{comment.content}</p>
