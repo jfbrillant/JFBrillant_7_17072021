@@ -12,7 +12,13 @@ function CommentsDelete({ userId, postId, commentId, deleteComment }) {
         className="btn btn-outline-danger btn-sm"
         onClick={(e) => {
           e.preventDefault();
-          deleteComment(postId, commentId);
+          if (
+            window.confirm(
+              "Êtes-vous sûr de vouloir supprimer le commentaire ?"
+            )
+          ) {
+            deleteComment(postId, commentId);
+          }
         }}
       >
         <i className="far fa-trash-alt"></i>

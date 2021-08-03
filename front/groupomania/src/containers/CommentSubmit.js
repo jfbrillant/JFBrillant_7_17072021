@@ -23,7 +23,11 @@ function CommentSubmit(props) {
   const submitForm = () => {
     if (validator.current.allValid()) {
       props.SubmitCommentData(commentSubmitData, props.id);
-      forceUpdate(1)
+      setCommentSubmitData({
+        postId: props.id,
+        content: "",
+      });
+      validator.current.hideMessages(true);
     } else {
       validator.current.showMessages(true);
       forceUpdate(1)
