@@ -20,7 +20,6 @@ function SignUp(props) {
       messages: {
         required: "Le champ :attribute est requis",
         email: "L':attribute doit être un email valide",
-        alpha: "Le :attribute doit contenir uniquement des lettres",
         min: "Le :attribute doit contenir au moins 8 carractères",
         between: "Le :attribute doit contenir entre :min et :max carractères",
       },
@@ -60,7 +59,7 @@ function SignUp(props) {
               {validator.current.message(
                 "prénom",
                 signUpData.firstname,
-                "required|alpha|between:2,40"
+                "required|between:2,40"
               )}
             </div>
             <div className="form-group col-md-6 mb-3">
@@ -79,7 +78,7 @@ function SignUp(props) {
               {validator.current.message(
                 "nom",
                 signUpData.lastname,
-                "required|alpha|between:2,40"
+                "required|between:2,40"
               )}
             </div>
           </div>

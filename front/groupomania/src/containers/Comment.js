@@ -1,5 +1,6 @@
 import "../styles/Comment.scss";
 import React, { useState, useRef } from "react";
+import { decodeHTMLEntities }  from "../utils/decodeHTMLEntities"
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -16,13 +17,16 @@ function Comment({ comment, editComment, editCommentState }) {
   });
 
   const [, forceUpdate] = useState();
-  const validator = useRef(new SimpleReactValidator({
-    messages: {
-      required: 'Le champ :attribute est requis',
-      alpha_num_dash_space: 'Le :attribute doit contenir uniquement des lettres, des chiffres et des espaces',
-      between: 'Le :attribute doit contenir entre :min et :max carractères'
-    },
-  }))
+  const validator = useRef(
+    new SimpleReactValidator({
+      messages: {
+        required: "Le champ :attribute est requis",
+        regex:
+          "Le :attribute doit contenir uniquement des lettres, des chiffres et des espaces",
+        between: "Le :attribute doit contenir entre :min et :max carractères",
+      },
+    })
+  );
 
   const submitForm = () => {
     if (validator.current.allValid()) {
@@ -41,34 +45,38 @@ function Comment({ comment, editComment, editCommentState }) {
             to={`/profil/${comment.userId}`}
             className="text-reset text-decoration-none"
           >
-            <p className="m-0 pe-3 h5">{comment.User.firstname} {comment.User.lastname}</p>
+            <p className="m-0 pe-3 h5">
+              {comment.User.firstname} {comment.User.lastname}
+            </p>
           </Link>
           <p className="m-0 pe-3">
-          <i className="pe-1 far fa-clock"></i>
-          {moment(comment.createdAt).fromNow()}
+            <i className="pe-1 far fa-clock"></i>
+            {moment(comment.createdAt).fromNow()}
           </p>
           <div>
-          <CommentEdit
-            userId={comment.userId}
-            commentId={comment.id}
-            isUpdated={isUpdated}
-            setIsUpdated={setIsUpdated}
-          />
-          <CommentDelete
-            userId={comment.userId}
-            postId={comment.postId}
-            commentId={comment.id}
-          />
+            <CommentEdit
+              userId={comment.userId}
+              commentId={comment.id}
+              isUpdated={isUpdated}
+              setIsUpdated={setIsUpdated}
+            />
+            <CommentDelete
+              userId={comment.userId}
+              postId={comment.postId}
+              commentId={comment.id}
+            />
           </div>
         </div>
         {!isUpdated ? (
-          <p className="card-text">{comment.content}</p>
+          <p className="card-text mt-2">
+            {decodeHTMLEntities(comment.content)}
+          </p>
         ) : (
           <div>
             <textarea
               className="form-control my-3"
               placeholder="commentaire"
-              value={commentUpdate.content}
+              value={decodeHTMLEntities(commentUpdate.content)}
               onChange={(e) =>
                 setCommentUpdate({
                   ...commentUpdate,
@@ -80,7 +88,7 @@ function Comment({ comment, editComment, editCommentState }) {
             {validator.current.message(
               "commentaire",
               commentUpdate.content,
-              "required|alpha_num_dash_space|between:2,500"
+              "required|between:2,500"
             )}
             <button
               type="submit"

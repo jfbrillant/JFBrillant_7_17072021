@@ -16,7 +16,7 @@ function App() {
 
   return (
     <Provider store={store}>
-      <React.Fragment>
+      <div className="flex-wrapper">
         <Router>
           <Header />
           <Switch>
@@ -33,7 +33,7 @@ function App() {
           </Switch>
           <Footer />
         </Router>
-      </React.Fragment>
+      </div>
     </Provider>
   );
 }

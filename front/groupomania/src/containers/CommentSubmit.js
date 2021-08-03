@@ -16,7 +16,6 @@ function CommentSubmit(props) {
   const validator = useRef(new SimpleReactValidator({
     messages: {
       required: 'Le champ :attribute est requis',
-      alpha_num_dash_space: 'Le :attribute doit contenir uniquement des lettres, des chiffres et des espaces',
       between: 'Le titre doit contenir entre :min et :max carractères'
     },
   }))
@@ -24,11 +23,7 @@ function CommentSubmit(props) {
   const submitForm = () => {
     if (validator.current.allValid()) {
       props.SubmitCommentData(commentSubmitData, props.id);
-      setCommentSubmitData({
-        ...commentSubmitData,
-        content: "",
-      });
-      validator.current.showMessages(false);
+      forceUpdate(1)
     } else {
       validator.current.showMessages(true);
       forceUpdate(1)
@@ -55,7 +50,7 @@ function CommentSubmit(props) {
             }
             aria-describedby="comment"
           />
-          {validator.current.message('commentaire', commentSubmitData.content, 'required|alpha_num_dash_space|between:2,500')}
+          {validator.current.message('commentaire', commentSubmitData.content, "required|between:2,1000")}
         </div>
         <button
           type="submit"

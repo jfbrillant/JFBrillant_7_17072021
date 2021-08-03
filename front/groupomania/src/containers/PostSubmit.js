@@ -15,7 +15,6 @@ function PostForm(props) {
   const validator = useRef(new SimpleReactValidator({
     messages: {
       required: 'Le champ :attribute est requis',
-      alpha_num_dash_space: 'Le :attribute doit contenir uniquement des lettres, des chiffres et des espaces',
       between: 'Le titre doit contenir entre :min et :max carractères'
     },
   }))
@@ -31,7 +30,7 @@ function PostForm(props) {
 
   return (
     <div className="mb-5">
-      <h1 className="mt-5 mb-5">Postez vos Gifs sur le feed</h1>
+      <h1 className="mt-3 mb-5">Postez vos Gifs sur le feed</h1>
       <form className="p-3 bg-dark">
         <div className="form-group mb-3">
           <input
@@ -45,7 +44,7 @@ function PostForm(props) {
             }
             aria-describedby="post-title"
           />
-          {validator.current.message('titre', postSubmitData.title, 'required|alpha_num_dash_space|between:2,60')}
+          {validator.current.message('titre', postSubmitData.title, 'required|between:2,60')}
         </div>
         <div className="form-group mb-3">
           <input

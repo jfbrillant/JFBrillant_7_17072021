@@ -1,11 +1,11 @@
 import "../styles/Post.scss";
 import React, { useState, useRef } from "react";
+import { decodeHTMLEntities }  from "../utils/decodeHTMLEntities"
 import moment from "moment";
 import "moment/locale/fr";
 import PostDelete from "./PostDelete";
 import PostEdit from "./PostEdit";
 import { HashLink as Link } from 'react-router-hash-link';
-import LinkButton from "../components/LinkButton";
 import { apiPUT } from "../actions/postEdit";
 import { connect } from "react-redux";
 import SimpleReactValidator from "simple-react-validator";
@@ -24,7 +24,6 @@ function Post({ post, editPost, editPostState }) {
   const validator = useRef(new SimpleReactValidator({
     messages: {
       required: 'Le champ :attribute est requis',
-      alpha_num_dash_space: 'Le :attribute doit contenir uniquement des lettres, des chiffres et des espaces',
       between: 'Le titre doit contenir entre :min et :max carractères'
     },
   }))
@@ -49,7 +48,7 @@ function Post({ post, editPost, editPostState }) {
               to={`/post/${post.id}`}
               className="text-reset text-decoration-none"
             >
-              <h2 className="card-title">{post.title}</h2>
+              <h2 className="card-title">{decodeHTMLEntities(post.title)}</h2>
             </Link>
           ) : (
             <div>
@@ -57,7 +56,7 @@ function Post({ post, editPost, editPostState }) {
                 type="text"
                 className="form-control my-3"
                 placeholder="titre"
-                value={postUpdate.title}
+                value={decodeHTMLEntities(postUpdate.title)}
                 onChange={(e) =>
                   setPostUpdate({
                     ...postUpdate,
@@ -69,7 +68,7 @@ function Post({ post, editPost, editPostState }) {
               {validator.current.message(
                 "titre",
                 postUpdate.title,
-                "required|alpha_num_dash_space|between:2,60"
+                "required|between:2,100"
               )}
               <input
                 type="file"

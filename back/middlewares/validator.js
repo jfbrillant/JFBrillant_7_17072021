@@ -6,23 +6,27 @@ const signUpValidationRules = () => {
       .exists()
       .withMessage("Le prénom est requis")
       .isLength({ min: 2 })
-      .withMessage("Le prénom doit contenir 2 caractères au minimum"),
+      .withMessage("Le prénom doit contenir 2 caractères au minimum")
+      .trim().escape(),
     check("lastname")
       .exists()
       .withMessage("Le nom est requis")
       .isLength({ min: 2 })
-      .withMessage("Le nom doit contenir 2 caractères au minimum"),
+      .withMessage("Le nom doit contenir 2 caractères au minimum")
+      .trim().escape(),
     check("email")
       .exists()
       .withMessage("L'email est requis")
       .isEmail()
       .normalizeEmail()
-      .withMessage("Le format de l'email n'est pas valide"),
+      .withMessage("Le format de l'email n'est pas valide")
+      .trim().escape(),
     check("password")
       .exists()
       .withMessage("Le mot de passe est requis")
       .isLength({ min: 8 })
-      .withMessage("Le mot de passe doit contenir 8 caractères au minimum"),
+      .withMessage("Le mot de passe doit contenir 8 caractères au minimum")
+      .trim().escape()
   ];
 };
 
@@ -33,12 +37,14 @@ const loginValidationRules = () => {
       .withMessage("L'email est requis")
       .isEmail()
       .normalizeEmail()
-      .withMessage("Le format de l'email n'est pas valide"),
+      .withMessage("Le format de l'email n'est pas valide")
+      .trim().escape(),
     check("password")
       .exists()
       .withMessage("Le mot de passe est requis")
       .isLength({ min: 8 })
-      .withMessage("Le mot de passe doit contenir 8 caractères au minimum"),
+      .withMessage("Le mot de passe doit contenir 8 caractères au minimum")
+      .trim().escape()
   ];
 };
 
@@ -48,7 +54,8 @@ const postValidationRules = () => {
     .exists()
     .withMessage("Le titre est requis")
     .isLength({ min: 2 })
-    .withMessage("Le titre doit contenir 2 caractères au minimum"),
+    .withMessage("Le titre doit contenir 2 caractères au minimum")
+    .trim().escape()
   ];
 };
 
@@ -58,7 +65,8 @@ const commentValidationRules = () => {
     .exists()
     .withMessage("Le commentaire ne peut être vide")
     .isLength({ min: 2 })
-    .withMessage("Le commentaire doit contenir 2 caractères au minimum"),
+    .withMessage("Le commentaire doit contenir 2 caractères au minimum")
+    .trim().escape()
   ];
 };
 
@@ -73,7 +81,8 @@ const userValidationRules = () => {
       .exists()
       .withMessage("Le nom est requis")
       .isLength({ min: 2 })
-      .withMessage("Le nom doit contenir 2 caractères au minimum"),
+      .withMessage("Le nom doit contenir 2 caractères au minimum")
+      .trim().escape()
   ];
 };
 
