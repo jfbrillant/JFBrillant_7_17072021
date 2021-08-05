@@ -2,31 +2,37 @@ import "../styles/PostSubmit.scss";
 import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import { apiPOST } from "../actions/postSubmit";
-import SimpleReactValidator from 'simple-react-validator';
+import SimpleReactValidator from "simple-react-validator";
 
-function PostForm(props) {
-
+function PostForm({ postSubmitState, submitPostData }) {
   const [postSubmitData, setPostSubmitData] = useState({
     title: "",
     attachment: "",
   });
 
-  const [, forceUpdate] = useState()
-  const validator = useRef(new SimpleReactValidator({
-    messages: {
-      required: 'Le champ :attribute est requis',
-      between: 'Le titre doit contenir entre :min et :max carractères'
-    },
-  }))
+  const [, forceUpdate] = useState();
+  const validator = useRef(
+    new SimpleReactValidator({
+      messages: {
+        required: "Le champ :attribute est requis",
+        between: "Le titre doit contenir entre :min et :max carractères",
+      },
+    })
+  );
 
   const submitForm = () => {
     if (validator.current.allValid()) {
-      props.SubmitPostData(postSubmitData);
+      submitPostData(postSubmitData);
+      setPostSubmitData({
+        title: "",
+        attachment: "",
+      });
+      validator.current.hideMessages(true);
     } else {
       validator.current.showMessages(true);
-      forceUpdate(1)
+      forceUpdate(1);
     }
-  }
+  };
 
   return (
     <div className="mb-5">
@@ -44,7 +50,11 @@ function PostForm(props) {
             }
             aria-describedby="post-title"
           />
-          {validator.current.message('titre', postSubmitData.title, 'required|between:2,60')}
+          {validator.current.message(
+            "titre",
+            postSubmitData.title,
+            "required|between:2,60"
+          )}
         </div>
         <div className="form-group mb-3">
           <input
@@ -70,23 +80,35 @@ function PostForm(props) {
             submitForm();
           }}
         >
-          Poster
+          {" "}
+          {postSubmitState.isLoading ? (
+            <div>
+              <span
+                className="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              <span className="sr-only">Loading...</span>
+            </div>
+          ) : (
+            <span>Poster</span>
+          )}
         </button>
       </form>
-      <div className="text-danger mt-2">{props.postSubmitData.error}</div>
+      <div className="text-danger mt-2">{postSubmitState.error}</div>
     </div>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    postSubmitData: state.submitPost,
+    postSubmitState: state.submitPost,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    SubmitPostData: (postSubmitData) => dispatch(apiPOST(postSubmitData)),
+    submitPostData: (postSubmitData) => dispatch(apiPOST(postSubmitData)),
   };
 };
 

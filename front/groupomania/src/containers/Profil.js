@@ -6,7 +6,8 @@ import UserEdit from "./UserEdit";
 import UserDelete from "./UserDelete";
 import { apiGET } from "../actions/userViewer";
 import { apiPUT } from "../actions/userEdit";
-import SimpleReactValidator from 'simple-react-validator';
+import SimpleReactValidator from "simple-react-validator";
+import { decodeHTMLEntities } from "../utils/decodeHTMLEntities";
 
 function Profil({
   userData,
@@ -18,26 +19,28 @@ function Profil({
   const id = useParams().id;
 
   const activeUserId = JSON.parse(localStorage.getItem("userData")).userId;
-  
+
   const [isUpdated, setIsUpdated] = useState(false);
-  
+
   useEffect(() => {
     getUser(id);
   }, [getUser, editUserState, id]);
 
   const [userUpdate, setUserUpdate] = useState({
-    firstname: userData.firstname,
-    lastname: userData.lastname,
+    firstname: decodeHTMLEntities(userData.firstname),
+    lastname: decodeHTMLEntities(userData.lastname),
   });
 
-  const [, forceUpdate] = useState()
-  const validator = useRef(new SimpleReactValidator({
-    messages: {
-      required: 'Le champ :attribute est requis',
-      alpha: 'Le :attribute doit contenir uniquement des lettres',
-      between: 'Le :attribute doit contenir entre :min et :max carractères'
-    },
-  }))
+  const [, forceUpdate] = useState();
+  const validator = useRef(
+    new SimpleReactValidator({
+      messages: {
+        required: "Le champ :attribute est requis",
+        alpha: "Le :attribute doit contenir uniquement des lettres",
+        between: "Le :attribute doit contenir entre :min et :max carractères",
+      },
+    })
+  );
 
   const submitForm = () => {
     if (validator.current.allValid()) {
@@ -45,28 +48,35 @@ function Profil({
       setIsUpdated(!isUpdated);
     } else {
       validator.current.showMessages(true);
-      forceUpdate(1)
+      forceUpdate(1);
     }
-  }
-  
+  };
+
   return (
     <main className="container">
       {!userData ? (
         <p>L'utilisateur n'existe pas... !</p>
       ) : editUserState.isLoading || deleteUserState.isLoading ? (
-        <p> Chargement en cours...</p>
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
       ) : (
         <Fragment>
           {
             // eslint-disable-next-line
             userData.id == activeUserId ? (
               <Fragment>
-                <h1>Bienvenue {userData.firstname}</h1>
-                <h2 className="mb-5">Vous pouvez ici modifier ou supprimer votre profil</h2>
+                <h1>Bienvenue {decodeHTMLEntities(userData.firstname)}</h1>
+                <h2 className="mb-5">
+                  Vous pouvez ici modifier ou supprimer votre profil
+                </h2>
               </Fragment>
             ) : (
               <h1 className="mb-5">
-                Voici le profil de {userData.firstname} {userData.lastname}
+                Voici le profil de {decodeHTMLEntities(userData.firstname)}{" "}
+                {decodeHTMLEntities(userData.lastname)}
               </h1>
             )
           }
@@ -83,9 +93,11 @@ function Profil({
               {!isUpdated ? (
                 <div>
                   <p className="card-text mb-0 h5">
-                    Prénom : {userData.firstname}
+                    Prénom : {decodeHTMLEntities(userData.firstname)}
                   </p>
-                  <p className="card-text mb-0 h5">Nom : {userData.lastname}</p>
+                  <p className="card-text mb-0 h5">
+                    Nom : {decodeHTMLEntities(userData.lastname)}
+                  </p>
                   <p className="card-text mb-0 h5">E-mail : {userData.email}</p>
                   {userData.isAdmin ? (
                     <p className="card-text mb-0 h5">Admin : oui</p>
@@ -107,7 +119,11 @@ function Profil({
                     }
                     aria-describedby="user-firstname"
                   />
-                  {validator.current.message('prénom', userUpdate.firstname, 'required|alpha|between:2,40')}
+                  {validator.current.message(
+                    "prénom",
+                    userUpdate.firstname,
+                    "required|alpha|between:2,40"
+                  )}
                   <input
                     className="form-control my-3"
                     placeholder="Nom"
@@ -120,7 +136,11 @@ function Profil({
                     }
                     aria-describedby="user-lastname"
                   />
-                  {validator.current.message('nom', userUpdate.lastname, 'required|alpha|between:2,40')}
+                  {validator.current.message(
+                    "nom",
+                    userUpdate.lastname,
+                    "required|alpha|between:2,40"
+                  )}
                   <button
                     type="submit"
                     className="btn btn-primary"

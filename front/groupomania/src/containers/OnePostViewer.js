@@ -3,21 +3,29 @@ import { connect } from "react-redux";
 import Post from "./Post";
 import { apiGET } from "../actions/onePost";
 
-function OnePostViewer({ onePostsData, getOnePostData, editPostState,  deletePostState, id }) {
-
+function OnePostViewer({
+  onePostsData,
+  getOnePostData,
+  editPostState,
+  deletePostState,
+  id,
+}) {
   useEffect(() => {
     getOnePostData(id);
   }, [getOnePostData, editPostState, deletePostState, id]);
 
-
-  const displayPost = !onePostsData.post ? (
-    <p>Il n'y a aucun post... !</p>
-  ) : onePostsData.isLoading ? (
-    <p>Chargement en cours...</p>
+  const displayPost = onePostsData.isLoading ? (
+    <div className="d-flex justify-content-center">
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
+    </div>
   ) : onePostsData.error ? (
     <p>{onePostsData.error}</p>
+  ) : !onePostsData.post ? (
+    <p>Il n'y a aucun post... !</p>
   ) : (
-      <Post post={onePostsData.post} />
+    <Post post={onePostsData.post} />
   );
 
   return <Fragment>{displayPost}</Fragment>;

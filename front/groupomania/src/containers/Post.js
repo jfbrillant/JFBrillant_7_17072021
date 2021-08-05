@@ -17,7 +17,7 @@ function Post({ post, editPost, editPostState }) {
 
   const [isUpdated, setIsUpdated] = useState(false);
   const [postUpdate, setPostUpdate] = useState({
-    title: post.title,
+    title: decodeHTMLEntities(post.title),
     attachment: post.attachment,
   });
 
@@ -56,7 +56,7 @@ function Post({ post, editPost, editPostState }) {
                 type="text"
                 className="form-control my-3"
                 placeholder="titre"
-                value={decodeHTMLEntities(postUpdate.title)}
+                value={postUpdate.title}
                 onChange={(e) =>
                   setPostUpdate({
                     ...postUpdate,

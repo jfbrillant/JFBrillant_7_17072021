@@ -3,18 +3,28 @@ import { connect } from "react-redux";
 import Post from "./Post";
 import { apiGET } from "../actions/postsViewer";
 
-function PostsViewer({ postsData, getPostsData, editPostState, deletePostState }) {
+function PostsViewer({
+  postsData,
+  getPostsData,
+  submitPostState,
+  editPostState,
+  deletePostState,
+}) {
   useEffect(() => {
     getPostsData();
-  }, [getPostsData, editPostState, deletePostState]);
+  }, [getPostsData, submitPostState, editPostState, deletePostState]);
 
-  const displayPosts = !postsData.posts ? (
-    <p>Il n'y a aucun post... !</p>
-  ) : postsData.isLoading ? (
-    <p>Chargement en cours...</p>
+  const displayPosts = postsData.isLoading ? (
+    <div className="d-flex justify-content-center">
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
+    </div>
   ) : postsData.error ? (
     <p>{postsData.error}</p>
-  ) : (
+  ) : !postsData.posts ? (
+    <p>Il n'y a aucun post... !</p>)
+    : (
     postsData.posts.map((post) => {
       return (
         <div key={post.id}>
@@ -30,6 +40,7 @@ function PostsViewer({ postsData, getPostsData, editPostState, deletePostState }
 const mapStateToProps = (state) => {
   return {
     postsData: state.getPosts,
+    submitPostState: state.submitPost,
     editPostState: state.editPost,
     deletePostState: state.deletePost,
   };

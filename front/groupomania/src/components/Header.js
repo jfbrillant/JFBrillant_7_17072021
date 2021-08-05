@@ -11,6 +11,8 @@ function Header({ loginData, deleteUserState }) {
 
   const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
 
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
   const userIsLogin = () => {
     if (localStorage.getItem("isLogin") === "true") {
       setIsLogin(true);
@@ -64,7 +66,7 @@ function Header({ loginData, deleteUserState }) {
                   <li className="nav-item text-light me-3">
                     <NavLink
                         exact
-                        to={`/profil/${JSON.parse(localStorage.getItem("userData")).userId}`}
+                        to={`/profil/${userData ? userData.userId : ""}`}
                         className="nav-link"
                         onClick={() => {
                           handleNavCollapse()
@@ -72,7 +74,7 @@ function Header({ loginData, deleteUserState }) {
                       >
                       <i className="text-primary fas fa-user me-2"></i>
                       Bonjour{" "}
-                      {JSON.parse(localStorage.getItem("userData")).firstname}
+                      {userData ? userData.firstname : ""}
                     </NavLink>
                   </li>
                   <li className="nav-item">
@@ -81,7 +83,7 @@ function Header({ loginData, deleteUserState }) {
                       to="/login"
                       className="nav-link"
                       onClick={() => {
-                        localStorage.setItem("isLogin", "false");
+                        localStorage.removeItem("isLogin");
                         localStorage.removeItem("userData");
                         handleIsLogin();
                         handleNavCollapse();

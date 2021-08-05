@@ -129,11 +129,15 @@ exports.createPost = (req, res, next) => {
               error: "Echec lors de l'enregistrement du post",
             })
           );
+      } else {
+        res.status(500).json({
+          error: "utilisateur non trouvé",
+        })
       }
     })
     .catch(() =>
       res.status(500).json({
-        error: "impossible de vérifier l'utilisateur",
+        error: "Impossible de créer un post sans image ou gif",
       })
     );
 };

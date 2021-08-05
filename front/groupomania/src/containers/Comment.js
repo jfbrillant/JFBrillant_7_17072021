@@ -13,7 +13,7 @@ import SimpleReactValidator from "simple-react-validator";
 function Comment({ comment, editComment, editCommentState }) {
   const [isUpdated, setIsUpdated] = useState(false);
   const [commentUpdate, setCommentUpdate] = useState({
-    content: comment.content,
+    content: decodeHTMLEntities(comment.content),
   });
 
   const [, forceUpdate] = useState();
@@ -76,7 +76,7 @@ function Comment({ comment, editComment, editCommentState }) {
             <textarea
               className="form-control my-3"
               placeholder="commentaire"
-              value={decodeHTMLEntities(commentUpdate.content)}
+              value={commentUpdate.content}
               onChange={(e) =>
                 setCommentUpdate({
                   ...commentUpdate,
